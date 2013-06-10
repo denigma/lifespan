@@ -1,0 +1,14 @@
+.chart rect {
+       stroke: white;
+       fill: steelblue;
+     }
+
+.chart div {
+       font: 14pt sans-serif;
+       background-color: steelblue;
+       text-align: right;
+       padding: 3px;
+       margin: 1px;
+       color: #FFFFFF;
+
+     }
