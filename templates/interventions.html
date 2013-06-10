@@ -1,9 +1,17 @@
+{% load staticfiles %}
+
+{% load coffeescript%}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title></title>
+        <link rel="stylesheet" href="{% static 'interventions/d3.js'%}" type="text/css">
+        <script type="text/javascript"
+                src="{% coffeescript "static/interventions/bars.coffee" %}">
+        </script>
 </head>
 <body>
-
+     It just works!
 </body>
 </html>

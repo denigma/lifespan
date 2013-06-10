@@ -9,15 +9,18 @@ def chat(request):
     username = "guest" +num
     password = "somewrongpassword"
 
-    menu = ("item1","ITEM2")
     template = loader.get_template('chat.html')
     context = Context({
         'username': username,
         'password':password,
-        'menu': menu,
         })
     return HttpResponse(template.render(context))
 
 
 def index(request):
-    return chat(request)
+    template = loader.get_template('interventions.html')
+    context = Context({
+
+        })
+
+    return HttpResponse(template.render(context))
