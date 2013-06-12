@@ -19,20 +19,29 @@ class Denigma.Experiment extends Batman.Object
   rnd: (numberToRound) ->  Math.round(numberToRound * 100) / 100
 
   @accessor "median",
-    get: -> @_median
-    set: (value)-> @_median = value
+    get: ->
+      get: ->
+        animals =@get("animals")
+        if(animals.length>0)
+          d3.median(animals)
+        else
+          @_median
+    set: (value)->
+      if @get("animals")?.length>0
+        throw new Error("has animals inside")
+      else
+        @_median = value
 
 
   @accessor "max",
+
     get: ->
       animals =@get("animals")
       if(animals.length>0)
-        sum = 0
-        for i in animals
-          if i>sum then sum = i
-        sum
+        d3.max(animals)
       else
         @_max
+
     set: (key,value)->
       if @get("animals")?.length>0
         throw new Error("has animals inside")
@@ -42,12 +51,9 @@ class Denigma.Experiment extends Batman.Object
   @accessor "mean",
 
     get: ->
-      animals = @get("animals")
+      animals =@get("animals")
       if(animals.length>0)
-        sum = 0
-        for i in animals
-          sum = sum + i
-        @rnd(sum / animals.length)
+        d3.mean(animals)
       else
         @_mean
 
@@ -63,9 +69,7 @@ class Denigma.Experiment extends Batman.Object
     get: ->
       animals =@get("animals")
       if(animals.length>0)
-        sum = 0
-        for i in animals then sum = i if i<sum or sum==0
-        sum
+        d3.min(animals)
       else
         @_min
 

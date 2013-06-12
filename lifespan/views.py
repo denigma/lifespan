@@ -4,6 +4,7 @@ from django.template import Context, loader
 
 import random
 
+
 def chat(request):
     num = str(random.randint(1, 999))
     username = "guest" +num

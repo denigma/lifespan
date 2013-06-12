@@ -5,7 +5,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', 'lifespan.views.index', name='index'),
+    url(r'^chat$', 'lifespan.views.chat', name='chat'),
+
+    url(r'^$', 'lifespan.views.index', name='index'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

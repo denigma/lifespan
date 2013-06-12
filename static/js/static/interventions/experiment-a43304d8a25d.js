@@ -40,26 +40,34 @@
 
     Experiment.accessor("median", {
       get: function() {
-        return this._median;
+        return {
+          get: function() {
+            var animals;
+            animals = this.get("animals");
+            if (animals.length > 0) {
+              return d3.median(animals);
+            } else {
+              return this._median;
+            }
+          }
+        };
       },
       set: function(value) {
-        return this._median = value;
+        var _ref;
+        if (((_ref = this.get("animals")) != null ? _ref.length : void 0) > 0) {
+          throw new Error("has animals inside");
+        } else {
+          return this._median = value;
+        }
       }
     });
 
     Experiment.accessor("max", {
       get: function() {
-        var animals, i, sum, _i, _len;
+        var animals;
         animals = this.get("animals");
         if (animals.length > 0) {
-          sum = 0;
-          for (_i = 0, _len = animals.length; _i < _len; _i++) {
-            i = animals[_i];
-            if (i > sum) {
-              sum = i;
-            }
-          }
-          return sum;
+          return d3.max(animals);
         } else {
           return this._max;
         }
@@ -76,15 +84,10 @@
 
     Experiment.accessor("mean", {
       get: function() {
-        var animals, i, sum, _i, _len;
+        var animals;
         animals = this.get("animals");
         if (animals.length > 0) {
-          sum = 0;
-          for (_i = 0, _len = animals.length; _i < _len; _i++) {
-            i = animals[_i];
-            sum = sum + i;
-          }
-          return this.rnd(sum / animals.length);
+          return d3.mean(animals);
         } else {
           return this._mean;
         }
@@ -101,17 +104,10 @@
 
     Experiment.accessor("min", {
       get: function() {
-        var animals, i, sum, _i, _len;
+        var animals;
         animals = this.get("animals");
         if (animals.length > 0) {
-          sum = 0;
-          for (_i = 0, _len = animals.length; _i < _len; _i++) {
-            i = animals[_i];
-            if (i < sum || sum === 0) {
-              sum = i;
-            }
-          }
-          return sum;
+          return d3.min(animals);
         } else {
           return this._min;
         }
