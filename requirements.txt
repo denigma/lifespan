@@ -12,4 +12,5 @@ metron==1.1
 pinax-utils==1.0b1.dev3
 eventlog==0.6
 django-jsonfield==0.8.12
-django-coffeescript==0.7.2
+
+-e git+https://github.com/denigma/django-coffeescript.git#egg=coffescript
