@@ -4,6 +4,7 @@ class Denigma.Animal extends Batman.Object
     class of the animal
   ###
 
+
   constructor: (@name, @latin, @lifespan, @icon)->
 
 ###

@@ -52,8 +52,49 @@
 
     }
 
+    /*
+      static functions start
+    */
+
+
+    Intervention.scale = function() {
+      return 12;
+    };
+
+    Intervention.getTestMin = function(d) {
+      return Intervention.scale() * d.test.get("min");
+    };
+
+    Intervention.getTestMean = function(d) {
+      return Intervention.scale() * d.test.get("mean");
+    };
+
+    Intervention.getTestMedian = function(d) {
+      return Intervention.scale() * d.test.get("median");
+    };
+
+    Intervention.getTestMax = function(d) {
+      return Intervention.scale() * d.test.get("max");
+    };
+
+    Intervention.getControlMin = function(d) {
+      return Intervention.scale() * d.control.get("min");
+    };
+
+    Intervention.getControlMean = function(d) {
+      return Intervention.scale() * d.control.get("mean");
+    };
+
+    Intervention.getControlMedian = function(d) {
+      return Intervention.scale() * d.control.get("median");
+    };
+
+    Intervention.getControlMax = function(d) {
+      return Intervention.scale() * d.control.get("max");
+    };
+
     return Intervention;
 
-  })(Batman.Object);
+  }).call(this, Batman.Object);
 
 }).call(this);

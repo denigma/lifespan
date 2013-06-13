@@ -2,15 +2,27 @@ rect{
     stroke: black
 }
 
+/*
+Denigma colors:
+top right red fill: rgba(204,0,0,1)
+center fill: rgba(224,102,102,1)
+orange left fill: rgba(246,178,107,1)
+violet bottom right rgba(166, 77, 121 ,1)
+
+*/
+
 .decor {
-    fill: rgba(14,140,40,0.1)
+    fill:rgba(166, 77, 121 ,0.3);
+    stroke: grey
+}
+
+.icon rect {
+    fill: rgba(246,178,107,0.3)
 }
 
 
 rect{
-    stroke: black
-    rx: 20;
-    ry: 20
+    stroke: black;
 }
 
 .test .min {
@@ -30,21 +42,26 @@ rect{
     fill: green;
 }
 
+.control rect {
+    stroke: grey
+}
+
 .control .min {
-    fill: red;
+    fill: silver;
 }
 
 
 .control .mean {
-    fill: steelblue;
+    fill: #BCC6CC;
+
 }
 
 .control .median {
-    fill: stellblue;
+    fill: #BCC6CC;
 }
 
 .control .max {
-    fill: green;
+    fill: #D1D0CE;
 }
 
 

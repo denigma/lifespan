@@ -24,5 +24,21 @@ class Denigma.Intervention extends Batman.Object
       constructor that stores test, control groups and manipulations
     ###
 
+  ###
+    static functions start
+  ###
+
+  #indian-like code warning: all these pos functions are inaccurate and mostly wrong
+  @scale: ->12
+  @getTestMin: (d)=>@scale() * d.test.get "min"
+  @getTestMean: (d)=>@scale() * d.test.get "mean"
+  @getTestMedian: (d)=>@scale() * d.test.get "median"
+  @getTestMax: (d)=>@scale() * d.test.get "max"
+
+  @getControlMin: (d)=>@scale() * d.control.get "min"
+  @getControlMean: (d)=>@scale() * d.control.get "mean"
+  @getControlMedian: (d)=>@scale() * d.control.get "median"
+  @getControlMax: (d)=>@scale() * d.control.get "max"
+
 
 

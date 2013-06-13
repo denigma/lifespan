@@ -48,7 +48,6 @@
           var animals;
           animals = this.get("animals");
           if (animals.length > 0) {
-            alert(calc(animals));
             return calc(animals);
           } else {
             return this["_" + prop];

@@ -30,7 +30,7 @@ class Denigma.Experiment extends Batman.Object
       else
         #alert "_#{prop} = " + @["_#{prop}"]
         @["_#{prop}"]
-    #@["_#{prop}"]
+
     set: (key, value)->
       if @get("animals")?.length>0
         throw new Error("has animals inside")

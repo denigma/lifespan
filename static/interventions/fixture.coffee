@@ -10,8 +10,8 @@ class Denigma.Fixture extends Batman.Object
   manipulation: undefined
 
   constructor: ->
-    @animal = new Denigma.Animal("mouse","mus",18,"mouse.jpg") #in months
-    @manipulation = new Denigma.Manipulation("radiaction", "test grouped lived and mutated inside the reactor", "radiation.png")
+    @animal = new Denigma.Animal("mouse","mus",18,"mouse.svg") #in months
+    @manipulation = new Denigma.Manipulation("radiaction", "test grouped lived and mutated inside the reactor", "radiation.svg")
 
   rand: (min, max) -> Math.round(Math.random() * (max - min) + min)
 
