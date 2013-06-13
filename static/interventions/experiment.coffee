@@ -9,6 +9,7 @@ class Denigma.Experiment extends Batman.Object
   _median: 0
   _max: 0
 
+  #TODO: rename animals to organisms
 
   constructor: (@line, animals = [])->
     if(animals?)
@@ -18,78 +19,34 @@ class Denigma.Experiment extends Batman.Object
 
   rnd: (numberToRound) ->  Math.round(numberToRound * 100) / 100
 
-  @accessor "median",
-    get: ->
-      get: ->
-        animals =@get("animals")
-        if(animals.length>0)
-          d3.median(animals)
-        else
-          @_median
-    set: (value)->
-      if @get("animals")?.length>0
-        throw new Error("has animals inside")
-      else
-        @_median = value
-
-
-  @accessor "max",
-
+  @makeGetSet: (prop,calc)->
+    ###
+        function to generate getters and setters for accessors
+    ###
     get: ->
       animals =@get("animals")
       if(animals.length>0)
-        d3.max(animals)
+        calc(animals)
       else
-        @_max
-
-    set: (key,value)->
+        #alert "_#{prop} = " + @["_#{prop}"]
+        @["_#{prop}"]
+    #@["_#{prop}"]
+    set: (key, value)->
       if @get("animals")?.length>0
         throw new Error("has animals inside")
       else
-        @_max = value
-
-  @accessor "mean",
-
-    get: ->
-      animals =@get("animals")
-      if(animals.length>0)
-        d3.mean(animals)
-      else
-        @_mean
-
-    set: (key,value)->
-      if @get("animals")?.length>0
-        throw new Error("has animals inside")
-      else
-        @_mean = value
+        @["_#{prop}"]  = value
 
 
-  @accessor "min",
+  @accessor "median", @makeGetSet("median",d3.median)
 
-    get: ->
-      animals =@get("animals")
-      if(animals.length>0)
-        d3.min(animals)
-      else
-        @_min
+  @accessor "max", @makeGetSet("max",d3.max)
 
-    set: (key,value)->
-      if @get("animals")?.length>0
-        throw new Error("has animals inside")
-      else
-        @_min = value
+  @accessor "mean", @makeGetSet("mean",d3.mean)
 
-  @accessor "number",
+  @accessor "min", @makeGetSet("min",d3.min)
 
-    get: ->
-      animals = @get "animals"
-      if animals.length>0 then animals.length else @_number
-
-    set: (key,value)->
-      if @get("animals")?.length>0
-        throw new Error("has animals inside")
-      else
-        @_number = value
+  @accessor "number", @makeGetSet("number",(arr)->arr.length)
 
 
 

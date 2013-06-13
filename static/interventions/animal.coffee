@@ -1,3 +1,4 @@
+#TODO: Animal to Species, latin -> latinName
 class Denigma.Animal extends Batman.Object
   ###
     class of the animal
