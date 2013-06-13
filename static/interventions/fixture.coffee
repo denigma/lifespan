@@ -10,8 +10,8 @@ class Denigma.Fixture extends Batman.Object
   manipulation: undefined
 
   constructor: ->
-    @animal = new Denigma.Animal("mouse","mus",18,"mouse.png") #in months
-    @manipulation = new Denigma.Manipulation("radiaction", "test grouped lived and mutated inside the reactor", "shiny.src")
+    @animal = new Denigma.Animal("mouse","mus",18,"mouse.jpg") #in months
+    @manipulation = new Denigma.Manipulation("radiaction", "test grouped lived and mutated inside the reactor", "radiation.png")
 
   rand: (min, max) -> Math.round(Math.random() * (max - min) + min)
 
@@ -46,6 +46,7 @@ class Denigma.Fixture extends Batman.Object
       animals = []
       for a in [0..@rand(2,15)]
         an = @rnd(mean,stdev)
+        an = an*-1 if an<=0
         animals.push(an)
 
       test = new Denigma.Experiment("Chernobyl mouse",animals)

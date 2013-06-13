@@ -19,31 +19,17 @@ class Denigma.LifeSpan extends Batman.Object
   draw: =>
     data = @fixture.generate(10)
     w = 500
-    c = 30
+    c = 64
     h = c * data.length
     svg = @charts.svg
     @charts.setSize(w,h)
-    svg.attr("class", "chart")
-      .style("background-color","ivory")
+    svg.style("background-color","ivory")
     y = d3.scale.ordinal().domain(c)#.rangeBands([@marginY, h-@marginY])
     x = @charts.makeOX(data)
+    @charts.draw(data)
+    #sel = @charts.select(data)
 
-    sel = @charts.select(data)
-
-    els = @charts.enter(data)
-    els.append("rect").attr("class","max").transition().duration(800)
-      .attr("y", (d,i)=>i*c)
-      .attr("width", @charts.dXmax(x))
-      .attr("height", c)
-      .style("fill","lightgreen")
-
-    #sel.enter()
-    els.append("rect").attr("class","mean").transition().duration(800)
-      .attr("y", (d,i)=>i*c)
-      .attr("width", @charts.dXmean(x))
-      .attr("height", c)
-      .style("fill","green")
-      .style("opacity",0.2)
+    #els = @charts.enter(data)
 
   experiment: =>
     ###
@@ -74,7 +60,7 @@ Denigma.on "start", ->
   ###
   ls = new Denigma.LifeSpan()
   ls.main()
-  ls.experiment()
+  #ls.experiment()
 
 ###
   Lifespan

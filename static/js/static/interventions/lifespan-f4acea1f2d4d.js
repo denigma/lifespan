@@ -29,25 +29,17 @@
     };
 
     LifeSpan.prototype.draw = function() {
-      var c, data, els, h, sel, svg, w, x, y,
-        _this = this;
+      var c, data, h, svg, w, x, y;
       data = this.fixture.generate(10);
       w = 500;
-      c = 30;
+      c = 64;
       h = c * data.length;
       svg = this.charts.svg;
       this.charts.setSize(w, h);
-      svg.attr("class", "chart").style("background-color", "ivory");
+      svg.style("background-color", "ivory");
       y = d3.scale.ordinal().domain(c);
       x = this.charts.makeOX(data);
-      sel = this.charts.select(data);
-      els = this.charts.enter(data);
-      els.append("rect").attr("class", "max").transition().duration(800).attr("y", function(d, i) {
-        return i * c;
-      }).attr("width", this.charts.dXmax(x)).attr("height", c).style("fill", "lightgreen");
-      return els.append("rect").attr("class", "mean").transition().duration(800).attr("y", function(d, i) {
-        return i * c;
-      }).attr("width", this.charts.dXmean(x)).attr("height", c).style("fill", "green").style("opacity", 0.2);
+      return this.charts.draw(data);
     };
 
     LifeSpan.prototype.experiment = function() {
@@ -96,8 +88,7 @@
 
     var ls;
     ls = new Denigma.LifeSpan();
-    ls.main();
-    return ls.experiment();
+    return ls.main();
   });
 
   /*

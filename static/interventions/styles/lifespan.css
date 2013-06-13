@@ -1,7 +1,53 @@
-.chart rect {
-       stroke: white;
-       fill: steelblue;
-     }
+rect{
+    stroke: black
+}
+
+.decor {
+    fill: rgba(14,140,40,0.1)
+}
+
+
+rect{
+    stroke: black
+    rx: 20;
+    ry: 20
+}
+
+.test .min {
+    fill: red;
+}
+
+
+.test .mean {
+    fill: steelblue;
+}
+
+.test .median {
+    fill: stellblue;
+}
+
+.test .max {
+    fill: green;
+}
+
+.control .min {
+    fill: red;
+}
+
+
+.control .mean {
+    fill: steelblue;
+}
+
+.control .median {
+    fill: stellblue;
+}
+
+.control .max {
+    fill: green;
+}
+
+
 
 .chart div {
        font: 14pt sans-serif;
