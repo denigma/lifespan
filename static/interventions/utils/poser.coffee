@@ -1,6 +1,6 @@
 class Denigma.RowPoser
 
-  constructor: (@rowMargin,@rowHeight,@marginX)->
+  constructor: (@rowMargin,@rowHeight,@marginX,@dur)->
 
   getRowPos: (d,i)=>
     i* @rowHeight+i*@rowMargin

@@ -4,7 +4,7 @@ class Denigma.IconView extends Denigma.BasicView
   ###
   resources: undefined  #path to pics folder
 
-  constructor: (poser,@resources, @dur)->
+  constructor: (poser,@resources)->
     super(poser)
 
 
@@ -55,7 +55,7 @@ class Denigma.IconView extends Denigma.BasicView
 
 
     gpa = @getAnimalPic
-    sel.select("image.species").transition().duration(@dur)
+    sel.select("image.species").transition().duration(@poser.dur)
       .attr("xlink:href",gpa)
       .attr("x",@poser.marginX)
       .attr("width",icLen)
@@ -68,7 +68,7 @@ class Denigma.IconView extends Denigma.BasicView
     manip.attr("xlink:href",gma)
       .attr("width",manLen)
       .attr("height",manLen)
-    manip.transition().duration(@dur)
+    manip.transition().duration(@poser.dur)
       .attr("x",icLen+lw)
       .attr("y",posM)
 
@@ -84,7 +84,7 @@ class Denigma.IconView extends Denigma.BasicView
     .text(gsp)
 
     #spName = Denigma.Intervention.getSpeciesName
-    txt.transition().duration(@dur)
+    txt.transition().duration(@poser.dur)
       .attr("x",icLen+@poser.marginX*2)
       .attr("width",lw)
       .attr("height",icLen)

@@ -1,75 +1,25 @@
 class Denigma.BarView extends Denigma.BasicView
 
   width: undefined
+  test: undefined
+  control: undefined
 
-  constructor: (poser,@minW,@minH,@dur)->
+  constructor: (poser,@minW,@minH)->
     super(poser)
-
-  addTest: (row)->
-    test = row.append("svg")
-    test.attr("class", "test")
-
-    test.append("rect").attr("class","max")
-    test.append("rect").attr("class","mean")
-    test.append("rect").attr("class","min")
-    ###
-      test.append("text").attr("class","max").text("max")
-      test.append("text").attr("class","mean").text("mean")
-      test.append("text").attr("class","min").text("min")
-    ###
-
-  addControl: (row)->
-    control = row.append("svg")
-    control.attr("class", "control")
-
-    posY = @poser.getMiddlePos()
-
-    control.append("rect").attr("class","max")
-    control.append("rect").attr("class","mean")
-    control.append("rect").attr("class","min")
-
-
-  updateBars: (sel,group,key,posY,h)->
-    h = @minH unless h?
-    fun = (d)=>@scale(d[group].get(key))
-    bar =  sel.select(".#{group} rect.#{key}")
-    bar.attr("x",0)
-    .attr("y",posY)
-    .attr("width",@minW)
-    .attr("height",h)
-
-    bar.transition().duration(@dur)
-      .attr("width",fun)
-      .attr("rx",3)
-      .attr("ry",3)
-
-
-
-
-  updateTests: (sel)->
-    h = @minH
-    posY = @poser.getMiddlePos(h)
-    @updateBars(sel,"test","min",posY)
-    @updateBars(sel,"test","mean",posY)
-    @updateBars(sel,"test","max",posY)
-
-
-  updateControl: (sel)->
-    h = @minH *3
-    posY = @poser.getMiddlePos(h)
-    @updateBars(sel,"control","min",posY,h)
-    @updateBars(sel,"control","mean",posY,h)
-    @updateBars(sel,"control","max",posY,h)
-
+    @test = new Denigma.ExperimentBar(@poser,"test",@minW,@minH)
+    @control = new Denigma.ExperimentBar(@poser,"control",@minW,@minH*3)
 
   append: (novel)->
-    @addControl(novel)
-    @addTest(novel)
+    @control.append(novel)
+    @test.append(novel)
+    #@addTest(novel)
 
   update: (sel)->
     @makeScale(sel)
-    @updateTests(sel)
-    @updateControl(sel)
+    @control.scale = @scale
+    @control.update(sel)
+    @test.scale = @scale
+    @test.update(sel)
 
   makeScale: (sel)->
     @width = sel.attr("width")

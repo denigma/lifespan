@@ -3,10 +3,11 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Denigma.RowPoser = (function() {
-    function RowPoser(rowMargin, rowHeight, marginX) {
+    function RowPoser(rowMargin, rowHeight, marginX, dur) {
       this.rowMargin = rowMargin;
       this.rowHeight = rowHeight;
       this.marginX = marginX;
+      this.dur = dur;
       this.makeCentered = __bind(this.makeCentered, this);
       this.getMiddlePos = __bind(this.getMiddlePos, this);
       this.getBottomPos = __bind(this.getBottomPos, this);

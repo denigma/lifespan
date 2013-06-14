@@ -19,8 +19,6 @@ class Denigma.Charts
 
   iconWidth: 180
 
-  dur: 2000
-
   durNew: 400
 
 
@@ -29,10 +27,10 @@ class Denigma.Charts
       jquery-like selector string is passed,
       something like '#lifespan'
     ###
-    @poser = new Denigma.RowPoser(rowMargin =10, rowHeight = 56,marginX = 10)
+    @poser = new Denigma.RowPoser(rowMargin =10, rowHeight = 56,marginX = 10, dur = 2000)
     @decorView = new Denigma.DecorView(@poser,@width)
-    @iconView = new Denigma.IconView(poser = @poser, resources ="static/interventions/resources", dur = @dur)
-    @barView = new Denigma.BarView(poser =@poser,minW = 10,minH = 10, dur = @dur)
+    @iconView = new Denigma.IconView(poser = @poser, resources ="static/interventions/resources")
+    @barView = new Denigma.BarView(poser =@poser,minW = 10,minH = 10)
 
     @node = d3.select(@selector)
     @svg = @node.append("svg")

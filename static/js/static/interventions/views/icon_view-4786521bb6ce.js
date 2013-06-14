@@ -14,9 +14,8 @@
 
     IconView.prototype.resources = void 0;
 
-    function IconView(poser, resources, dur) {
+    function IconView(poser, resources) {
       this.resources = resources;
-      this.dur = dur;
       this.getManipulationPic = __bind(this.getManipulationPic, this);
       this.getAnimalPic = __bind(this.getAnimalPic, this);
       IconView.__super__.constructor.call(this, poser);
@@ -54,15 +53,15 @@
       posM = this.poser.getMiddlePos(manLen);
       sel.select("rect.billet").attr("width", width).attr("height", icLen).attr("rx", 10).attr("ry", 10);
       gpa = this.getAnimalPic;
-      sel.select("image.species").transition().duration(this.dur).attr("xlink:href", gpa).attr("x", this.poser.marginX).attr("width", icLen).attr("height", icLen);
+      sel.select("image.species").transition().duration(this.poser.dur).attr("xlink:href", gpa).attr("x", this.poser.marginX).attr("width", icLen).attr("height", icLen);
       gma = this.getManipulationPic;
       manip = sel.select("image.manipulation");
       manip.attr("xlink:href", gma).attr("width", manLen).attr("height", manLen);
-      manip.transition().duration(this.dur).attr("x", icLen + lw).attr("y", posM);
+      manip.transition().duration(this.poser.dur).attr("x", icLen + lw).attr("y", posM);
       gsp = Denigma.Intervention.getSpeciesName;
       txt = sel.select("text");
       txt.attr("class", "label").attr("width", lw).attr("height", icLen).attr("y", manLen).attr("x", icLen + this.poser.marginX).text(gsp);
-      return txt.transition().duration(this.dur).attr("x", icLen + this.poser.marginX * 2).attr("width", lw).attr("height", icLen);
+      return txt.transition().duration(this.poser.dur).attr("x", icLen + this.poser.marginX * 2).attr("width", lw).attr("height", icLen);
     };
 
     IconView.prototype.append = function(novel) {
