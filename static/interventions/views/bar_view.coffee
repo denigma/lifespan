@@ -6,7 +6,7 @@ class Denigma.BarView extends Denigma.BasicView
 
   constructor: (poser,@minW,@minH)->
     super(poser)
-    @test = new Denigma.ExperimentBar(@poser,"test",@minW,@minH)
+    @test = new Denigma.LabeledBar(@poser,"test",@minW,@minH)
     @control = new Denigma.ExperimentBar(@poser,"control",@minW,@minH*3)
 
   append: (novel)->

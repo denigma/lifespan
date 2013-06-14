@@ -9,18 +9,20 @@ class Denigma.ExperimentBar extends Denigma.BasicView
     super(poser)
 
   append: (row)->
-    control = row.append("svg")
-    control.attr("class", @group)
+    bars = row.append("svg")
+    bars.attr("class", @group)
 
-    control.append("rect").attr("class","max")
-    control.append("rect").attr("class","mean")
-    control.append("rect").attr("class","min")
+    bars.append("rect").attr("class","max")
+    bars.append("rect").attr("class","mean")
+    bars.append("rect").attr("class","min")
+    bars
 
 
-  updateBar: (sel,key,posY,h)->
+  updateBar: (sel,key,h)->
     h = @minH unless h?
+    posY = @poser.getMiddlePos(h)
     fun = (d)=>@scale(d[@group].get(key))
-    bar =  sel.select(".#{@group} rect.#{key}")
+    bar = @select(sel,key, "rect")
     bar.attr("x",0)
       .attr("y",posY)
       .attr("width",@minW)
@@ -31,10 +33,12 @@ class Denigma.ExperimentBar extends Denigma.BasicView
       .attr("rx",3)
       .attr("ry",3)
 
+  select: (sel,key,cl="rect")->
+    sel.select(".#{@group} #{cl}.#{key}")
 
   update: (sel)->
     h = @minH
-    posY = @poser.getMiddlePos(h)
-    @updateBar(sel,"min",posY,h)
-    @updateBar(sel, "mean",posY,h)
-    @updateBar(sel, "max",posY,h)
+    @updateBar(sel,"min",h)
+    @updateBar(sel, "mean",h)
+    @updateBar(sel, "max",h)
+    sel

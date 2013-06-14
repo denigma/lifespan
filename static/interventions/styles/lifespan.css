@@ -24,8 +24,21 @@ rect{
     stroke: black;
 }
 
+
+
+.test text{
+    font-size: 12pt;
+    stroke:white;
+    fill:white
+}
+
 .test rect.min {
     fill: red;
+}
+
+
+.test rect.textmin {
+    fill:red
 }
 
 
@@ -33,20 +46,37 @@ rect{
     fill: steelblue;
 }
 
+.test rect.textmean {
+    fill: steelblue;
+}
+
+
 .test rect.median {
     fill: stellblue;
 }
 
+.test rect.textmedian {
+    fill: steelblue;
+}
+
+
 .test rect.max {
     fill: green;
 }
+
+.test rect.textmax {
+    fill: green;
+}
+
 
 .control rect {
     stroke: grey
 }
 
 .control rect.min {
-    fill: silver;
+    /*fill: silver;*/
+    fill: #C5908E
+
 }
 
 
@@ -60,5 +90,6 @@ rect{
 }
 
 .control rect.max {
-    fill: #D1D0CE;
+    /*fill: #D1D0CE;*/
+    fill: #D5EBDC
 }

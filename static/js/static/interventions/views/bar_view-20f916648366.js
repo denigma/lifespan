@@ -16,7 +16,7 @@
       this.minW = minW;
       this.minH = minH;
       BarView.__super__.constructor.call(this, poser);
-      this.test = new Denigma.ExperimentBar(this.poser, "test", this.minW, this.minH);
+      this.test = new Denigma.LabeledBar(this.poser, "test", this.minW, this.minH);
       this.control = new Denigma.ExperimentBar(this.poser, "control", this.minW, this.minH * 3);
     }
 
