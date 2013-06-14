@@ -22,15 +22,15 @@
 
     Experiment.prototype._max = 0;
 
-    function Experiment(line, animals) {
+    function Experiment(line, organisms) {
       this.line = line;
-      if (animals == null) {
-        animals = [];
+      if (organisms == null) {
+        organisms = [];
       }
-      if ((animals != null)) {
-        this.set("animals", animals);
+      if ((organisms != null)) {
+        this.set("organisms", organisms);
       } else {
-        this.set("animals", []);
+        this.set("organisms", []);
       }
     }
 
@@ -45,18 +45,18 @@
         */
 
         get: function() {
-          var animals;
-          animals = this.get("animals");
-          if (animals.length > 0) {
-            return calc(animals);
+          var organisms;
+          organisms = this.get("organisms");
+          if (organisms.length > 0) {
+            return calc(organisms);
           } else {
             return this["_" + prop];
           }
         },
         set: function(key, value) {
           var _ref;
-          if (((_ref = this.get("animals")) != null ? _ref.length : void 0) > 0) {
-            throw new Error("has animals inside");
+          if (((_ref = this.get("organisms")) != null ? _ref.length : void 0) > 0) {
+            throw new Error("has organisms inside");
           } else {
             return this["_" + prop] = value;
           }

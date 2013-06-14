@@ -89,8 +89,6 @@ class Denigma.IconView extends Denigma.BasicView
       .attr("width",lw)
       .attr("height",icLen)
 
-
-
   append: (novel)->
     @addIcons(novel)
 

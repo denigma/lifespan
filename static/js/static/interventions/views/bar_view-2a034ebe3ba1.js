@@ -6,6 +6,8 @@
   Denigma.BarView = (function(_super) {
     __extends(BarView, _super);
 
+    BarView.prototype.width = void 0;
+
     function BarView(poser, minW, minH, dur) {
       this.minW = minW;
       this.minH = minH;
@@ -20,65 +22,54 @@
       test.append("rect").attr("class", "max");
       test.append("rect").attr("class", "mean");
       return test.append("rect").attr("class", "min");
+      /*
+        test.append("text").attr("class","max").text("max")
+        test.append("text").attr("class","mean").text("mean")
+        test.append("text").attr("class","min").text("min")
+      */
+
     };
 
     BarView.prototype.addControl = function(row) {
-      var control;
+      var control, posY;
       control = row.append("svg");
       control.attr("class", "control");
+      posY = this.poser.getMiddlePos();
       control.append("rect").attr("class", "max");
       control.append("rect").attr("class", "mean");
       return control.append("rect").attr("class", "min");
     };
 
-    BarView.prototype.updateBar = function(bar, pos, val, h) {
-      /*
-        updates any bar
-      */
-
+    BarView.prototype.updateBars = function(sel, group, key, posY, h) {
+      var bar, fun,
+        _this = this;
       if (h == null) {
         h = this.minH;
       }
-      bar.attr("x", 0).attr("y", pos).attr("width", this.minW).attr("height", h);
-      return bar.transition().duration(this.dur).attr("width", val).attr("rx", 3).attr("ry", 3);
+      fun = function(d) {
+        return _this.scale(d[group].get(key));
+      };
+      bar = sel.select("." + group + " rect." + key);
+      bar.attr("x", 0).attr("y", posY).attr("width", this.minW).attr("height", h);
+      return bar.transition().duration(this.dur).attr("width", fun).attr("rx", 3).attr("ry", 3);
     };
 
     BarView.prototype.updateTests = function(sel) {
-      /*
-       redraws bars in accordance with binding info
-      */
-
-      var gtMax, gtMean, gtMin, h, max, mean, min, pos;
-      gtMax = Denigma.Intervention.getTestMax;
-      gtMean = Denigma.Intervention.getTestMean;
-      gtMin = Denigma.Intervention.getTestMin;
+      var h, posY;
       h = this.minH;
-      pos = this.poser.getMiddlePos(h);
-      min = sel.select(".test .min");
-      mean = sel.select(".test .mean");
-      max = sel.select(".test .max");
-      this.updateBar(min, pos, gtMin, h);
-      this.updateBar(mean, pos, gtMean, h);
-      return this.updateBar(max, pos, gtMax, h);
+      posY = this.poser.getMiddlePos(h);
+      this.updateBars(sel, "test", "min", posY);
+      this.updateBars(sel, "test", "mean", posY);
+      return this.updateBars(sel, "test", "max", posY);
     };
 
     BarView.prototype.updateControl = function(sel) {
-      /*
-       redraws bars in accordance with binding info
-      */
-
-      var gcMax, gcMean, gcMin, h, max, mean, min, pos;
-      gcMax = Denigma.Intervention.getControlMax;
-      gcMean = Denigma.Intervention.getControlMean;
-      gcMin = Denigma.Intervention.getControlMin;
+      var h, posY;
       h = this.minH * 3;
-      pos = this.poser.getMiddlePos(h);
-      min = sel.select(".control .min");
-      mean = sel.select(".control .mean");
-      max = sel.select(".control .max");
-      this.updateBar(min, pos, gcMin, h);
-      this.updateBar(mean, pos, gcMean, h);
-      return this.updateBar(max, pos, gcMax, h);
+      posY = this.poser.getMiddlePos(h);
+      this.updateBars(sel, "control", "min", posY, h);
+      this.updateBars(sel, "control", "mean", posY, h);
+      return this.updateBars(sel, "control", "max", posY, h);
     };
 
     BarView.prototype.append = function(novel) {
@@ -87,8 +78,19 @@
     };
 
     BarView.prototype.update = function(sel) {
+      this.makeScale(sel);
       this.updateTests(sel);
       return this.updateControl(sel);
+    };
+
+    BarView.prototype.makeScale = function(sel) {
+      var data, max;
+      this.width = sel.attr("width");
+      data = sel.data();
+      max = d3.max(data, function(d) {
+        return d.get("max");
+      });
+      return this.scale = d3.scale.linear().domain([0, max]).range([0, this.width - this.poser.rowMargin]);
     };
 
     return BarView;

@@ -17,8 +17,6 @@ class Denigma extends Batman.App
   ###
 
   @root ''
-  #@route "/completed", "tasks#completed"
-  #@route "/active", "tasks#active"
 
 #stores to global container
 container = Batman.container

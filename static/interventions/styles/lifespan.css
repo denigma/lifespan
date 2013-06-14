@@ -24,20 +24,20 @@ rect{
     stroke: black;
 }
 
-.test .min {
+.test rect.min {
     fill: red;
 }
 
 
-.test .mean {
+.test rect.mean {
     fill: steelblue;
 }
 
-.test .median {
+.test rect.median {
     fill: stellblue;
 }
 
-.test .max {
+.test rect.max {
     fill: green;
 }
 
@@ -45,20 +45,20 @@ rect{
     stroke: grey
 }
 
-.control .min {
+.control rect.min {
     fill: silver;
 }
 
 
-.control .mean {
+.control rect.mean {
     fill: #BCC6CC;
 
 }
 
-.control .median {
+.control rect.median {
     fill: #BCC6CC;
 }
 
-.control .max {
+.control rect.max {
     fill: #D1D0CE;
 }

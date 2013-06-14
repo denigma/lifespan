@@ -9,13 +9,13 @@ class Denigma.Experiment extends Batman.Object
   _median: 0
   _max: 0
 
-  #TODO: rename animals to organisms
+  #TODO: rename organisms to organisms
 
-  constructor: (@line, animals = [])->
-    if(animals?)
-      @set "animals", animals
+  constructor: (@line, organisms = [])->
+    if(organisms?)
+      @set "organisms", organisms
     else
-      @set "animals", []
+      @set "organisms", []
 
   rnd: (numberToRound) ->  Math.round(numberToRound * 100) / 100
 
@@ -24,16 +24,16 @@ class Denigma.Experiment extends Batman.Object
         function to generate getters and setters for accessors
     ###
     get: ->
-      animals =@get("animals")
-      if(animals.length>0)
-        calc(animals)
+      organisms =@get("organisms")
+      if(organisms.length>0)
+        calc(organisms)
       else
         #alert "_#{prop} = " + @["_#{prop}"]
         @["_#{prop}"]
 
     set: (key, value)->
-      if @get("animals")?.length>0
-        throw new Error("has animals inside")
+      if @get("organisms")?.length>0
+        throw new Error("has organisms inside")
       else
         @["_#{prop}"]  = value
 

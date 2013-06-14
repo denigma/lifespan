@@ -102,6 +102,7 @@ class Denigma.Charts
 
     bars = sel.select("svg.bar")
     bars.attr("x",@iconWidth)
+    bars.attr("width",@width-@iconWidth)
     @barView.update(bars)
 
     sel.transition().duration(@durNew)

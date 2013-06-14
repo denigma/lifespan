@@ -106,6 +106,7 @@
       this.iconView.update(icons);
       bars = sel.select("svg.bar");
       bars.attr("x", this.iconWidth);
+      bars.attr("width", this.width - this.iconWidth);
       this.barView.update(bars);
       return sel.transition().duration(this.durNew).attr("y", pos).attr("width", this.width);
     };
