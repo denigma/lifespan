@@ -73,10 +73,10 @@
         num = 10;
       }
       mean = this.rand(10, 14);
-      stdev = this.rand(5, 10);
+      stdev = this.rand(5, 12);
       for (i = _i = 0; 0 <= num ? _i <= num : _i >= num; i = 0 <= num ? ++_i : --_i) {
         animals = [];
-        for (a = _j = 0, _ref = this.rand(2, 15); 0 <= _ref ? _j <= _ref : _j >= _ref; a = 0 <= _ref ? ++_j : --_j) {
+        for (a = _j = 0, _ref = this.rand(5, 15); 0 <= _ref ? _j <= _ref : _j >= _ref; a = 0 <= _ref ? ++_j : --_j) {
           an = this.rnd(mean, stdev);
           if (an <= 0) {
             an = an * -1;

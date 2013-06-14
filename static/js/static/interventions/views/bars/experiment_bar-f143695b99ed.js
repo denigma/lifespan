@@ -41,7 +41,7 @@
         return _this.scale(d[_this.group].get(key));
       };
       bar = this.select(sel, key, "rect");
-      bar.attr("x", 0).attr("y", posY).attr("width", this.minW).attr("height", h);
+      bar.attr("x", this.poser.marginX).attr("y", posY).attr("width", this.minW).attr("height", h);
       return bar.transition().duration(this.poser.dur).attr("width", fun).attr("rx", 3).attr("ry", 3);
     };
 

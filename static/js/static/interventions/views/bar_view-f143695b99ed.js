@@ -6,11 +6,18 @@
   Denigma.BarView = (function(_super) {
     __extends(BarView, _super);
 
+    /*
+      view that shows all the bars in the charts
+    */
+
+
     BarView.prototype.width = void 0;
 
     BarView.prototype.test = void 0;
 
     BarView.prototype.control = void 0;
+
+    BarView.prototype.xAxis = void 0;
 
     function BarView(poser, minW, minH) {
       this.minW = minW;
@@ -18,15 +25,18 @@
       BarView.__super__.constructor.call(this, poser);
       this.test = new Denigma.LabeledBar(this.poser, "test", this.minW, this.minH);
       this.control = new Denigma.ExperimentBar(this.poser, "control", this.minW, this.minH * 3);
+      this.xAxis = d3.svg.axis().orient("bottom");
     }
 
     BarView.prototype.append = function(novel) {
       this.control.append(novel);
-      return this.test.append(novel);
+      this.test.append(novel);
+      return novel.append("svg").attr("class", "axis");
     };
 
     BarView.prototype.update = function(sel) {
       this.makeScale(sel);
+      this.updateAxis(sel);
       this.control.scale = this.scale;
       this.control.update(sel);
       this.test.scale = this.scale;
@@ -40,7 +50,16 @@
       max = d3.max(data, function(d) {
         return d.get("max");
       });
-      return this.scale = d3.scale.linear().domain([0, max]).range([0, this.width - this.poser.rowMargin]);
+      this.scale = d3.scale.linear().domain([0, max]).range([this.poser.marginX, this.width - this.poser.marginX]);
+      return this.scale;
+    };
+
+    BarView.prototype.updateAxis = function(sel) {
+      var g, h;
+      this.xAxis.scale(this.scale);
+      g = sel.select("svg.axis");
+      h = this.poser.contentHeight();
+      return g.attr("y", h).call(this.xAxis);
     };
 
     return BarView;

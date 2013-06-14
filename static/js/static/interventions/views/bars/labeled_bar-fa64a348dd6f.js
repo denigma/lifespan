@@ -26,27 +26,31 @@
 
     LabeledBar.prototype.updateLabel = function(sel, key) {};
 
+    LabeledBar.prototype.rnd = function(numberToRound) {
+      return Math.round(numberToRound * 10) / 10;
+    };
+
     LabeledBar.prototype.updateBar = function(sel, key, h) {
       var back, bh, bw, fun, posBY, posTY, text, val,
         _this = this;
       LabeledBar.__super__.updateBar.call(this, sel, key, h);
       val = function(d) {
-        return Math.round(d[_this.group].get(key));
+        return _this.rnd(d[_this.group].get(key));
       };
       fun = function(d) {
-        return _this.scale(val(d)) - _this.minW;
+        return _this.scale(val(d)) - _this.minW + _this.poser.marginX;
       };
       bh = this.minH * 2;
-      bw = this.minW * 2 + this.poser.rowMargin;
+      bw = this.minW * 2;
       posBY = this.poser.getMiddlePos(bh);
       back = this.select(sel, "text" + key, "rect");
-      back.attr("height", bh).attr("x", 0).attr("y", posBY).attr("width", bw);
+      back.attr("height", bh).attr("x", this.poser.marginX).attr("y", posBY).attr("width", bw);
       posTY = this.poser.getMiddlePos(-this.minH);
       text = this.select(sel, key, "text");
-      text.attr("x", 0).attr("y", posTY);
-      text.transition().duration(this.poser.dur).attr("x", fun).text(val);
+      text.attr("x", this.poser.marginX).attr("y", posTY);
+      text.transition().duration(this.poser.dur).attr("x", fun).attr("width", bw).attr("text-anchor", "middle").text(val);
       return back.transition().duration(this.poser.dur).attr("x", function(d) {
-        return fun(d) - _this.poser.rowMargin;
+        return fun(d) - bw / 2;
       });
     };
 

@@ -23,7 +23,7 @@ class Denigma.ExperimentBar extends Denigma.BasicView
     posY = @poser.getMiddlePos(h)
     fun = (d)=>@scale(d[@group].get(key))
     bar = @select(sel,key, "rect")
-    bar.attr("x",0)
+    bar.attr("x",@poser.marginX)
       .attr("y",posY)
       .attr("width",@minW)
       .attr("height",h)

@@ -35,10 +35,10 @@
         something like '#lifespan'
       */
 
-      this.poser = new Denigma.RowPoser(rowMargin = 10, rowHeight = 56, marginX = 10, dur = 2000);
+      this.poser = new Denigma.RowPoser(rowMargin = 20, rowHeight = 56, marginX = 10, dur = 2000);
       this.decorView = new Denigma.DecorView(this.poser, this.width);
       this.iconView = new Denigma.IconView(poser = this.poser, resources = "static/interventions/resources");
-      this.barView = new Denigma.BarView(poser = this.poser, minW = 10, minH = 10);
+      this.barView = new Denigma.BarView(poser = this.poser, minW = 15, minH = 10);
       this.node = d3.select(this.selector);
       this.svg = this.node.append("svg");
     }

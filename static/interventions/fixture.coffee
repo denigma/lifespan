@@ -41,10 +41,10 @@ class Denigma.Fixture extends Batman.Object
     @clean()
     num = 10 unless num?
     mean = @rand(10,14)
-    stdev = @rand(5,10)
+    stdev = @rand(5,12)
     for i in [0..num]
       animals = []
-      for a in [0..@rand(2,15)]
+      for a in [0..@rand(5,15)]
         an = @rnd(mean,stdev)
         an = an*-1 if an<=0
         animals.push(an)
