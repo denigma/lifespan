@@ -20,7 +20,6 @@ violet bottom right rgba(166, 77, 121 ,1)
     fill: rgba(246,178,107,0.3)
 }
 
-
 rect{
     stroke: black;
 }
@@ -63,15 +62,3 @@ rect{
 .control .max {
     fill: #D1D0CE;
 }
-
-
-
-.chart div {
-       font: 14pt sans-serif;
-       background-color: steelblue;
-       text-align: right;
-       padding: 3px;
-       margin: 1px;
-       color: #FFFFFF;
-
-     }

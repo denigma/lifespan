@@ -14,20 +14,18 @@
     }
 
     BarView.prototype.addTest = function(row) {
-      var test, x;
-      x = 2 * (this.poser.rowHeight + this.poser.rowMargin / 2) - this.poser.marginX;
+      var test;
       test = row.append("svg");
-      test.attr("class", "test").attr("x", x);
+      test.attr("class", "test");
       test.append("rect").attr("class", "max");
       test.append("rect").attr("class", "mean");
       return test.append("rect").attr("class", "min");
     };
 
     BarView.prototype.addControl = function(row) {
-      var control, x;
-      x = 2 * (this.poser.rowHeight - this.poser.rowMargin / 2) - this.poser.marginX;
+      var control;
       control = row.append("svg");
-      control.attr("class", "control").attr("x", x);
+      control.attr("class", "control");
       control.append("rect").attr("class", "max");
       control.append("rect").attr("class", "mean");
       return control.append("rect").attr("class", "min");

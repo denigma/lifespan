@@ -22,21 +22,19 @@
       IconView.__super__.constructor.call(this, poser);
     }
 
-    IconView.prototype.addIcons = function(row) {
+    IconView.prototype.addIcons = function(icons) {
       /*
         this function add all icons to the rowumn and groups them inside svg
       */
 
-      var icon;
-      icon = row.append("svg");
-      icon.attr("class", "icon");
-      icon.append("rect").attr("class", "billet");
-      icon.append("image").attr("class", "animal").attr("x", 0);
-      return icon.append("image").attr("class", "manipulation").attr("x", 0);
+      icons.append("rect").attr("class", "billet");
+      icons.append("image").attr("class", "species").attr("x", 0);
+      icons.append("image").attr("class", "manipulation").attr("x", 0);
+      return icons.append("text").attr("class", "label").text("species").attr("x", 0).attr("font-size", "16pt");
     };
 
     IconView.prototype.getAnimalPic = function(d) {
-      return "" + this.resources + "/" + d.animal.icon;
+      return "" + this.resources + "/" + d.species.icon;
     };
 
     IconView.prototype.getManipulationPic = function(d) {
@@ -48,15 +46,23 @@
         make all icons drawing and binding routine
       */
 
-      var gma, gpa, h, pos, posM;
-      h = this.poser.contentHeight();
-      pos = this.poser.getTopPos;
-      posM = this.poser.getMiddlePos(h / 2);
-      sel.select("rect.billet").attr("x", 0).attr("y", pos).attr("width", h * 1.5 + this.poser.marginX * 2).attr("height", h).attr("rx", 10).attr("ry", 10);
+      var gma, gpa, gsp, icLen, lw, manLen, manip, posM, txt, width;
+      width = sel.attr("width");
+      icLen = this.poser.contentHeight();
+      manLen = icLen / 2;
+      lw = width - icLen - manLen - this.poser.marginX;
+      posM = this.poser.getMiddlePos(manLen);
+      sel.select("rect.billet").attr("width", width).attr("height", icLen).attr("rx", 10).attr("ry", 10);
       gpa = this.getAnimalPic;
-      sel.select("image.animal").transition().duration(this.dur).attr("xlink:href", gpa).attr("x", this.poser.marginX).attr("y", pos).attr("width", h).attr("height", h);
+      sel.select("image.species").transition().duration(this.dur).attr("xlink:href", gpa).attr("x", this.poser.marginX).attr("width", icLen).attr("height", icLen);
       gma = this.getManipulationPic;
-      return sel.select("image.manipulation").transition().duration(this.dur).attr("xlink:href", gma).attr("x", this.poser.marginX + h).attr("y", posM).attr("width", h / 2).attr("height", h / 2);
+      manip = sel.select("image.manipulation");
+      manip.attr("xlink:href", gma).attr("width", manLen).attr("height", manLen);
+      manip.transition().duration(this.dur).attr("x", icLen + lw).attr("y", posM);
+      gsp = Denigma.Intervention.getSpeciesName;
+      txt = sel.select("text");
+      txt.attr("class", "label").attr("width", lw).attr("height", icLen).attr("y", manLen).attr("x", icLen + this.poser.marginX).text(gsp);
+      return txt.transition().duration(this.dur).attr("x", icLen + this.poser.marginX * 2).attr("width", lw).attr("height", icLen);
     };
 
     IconView.prototype.append = function(novel) {

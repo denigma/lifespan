@@ -5,44 +5,46 @@
 
 
 (function() {
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  var _ref,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   Denigma.LifeSpan = (function(_super) {
     __extends(LifeSpan, _super);
 
+    function LifeSpan() {
+      _ref = LifeSpan.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
     LifeSpan.prototype.fixture = void 0;
 
     LifeSpan.prototype.charts = void 0;
 
-    function LifeSpan() {
-      this.experiment = __bind(this.experiment, this);
-      this.draw = __bind(this.draw, this);
-      this.main = __bind(this.main, this);
-    }
-
-    LifeSpan.prototype.main = function() {
-      this.fixture = new Denigma.Fixture();
-      this.charts = new Denigma.LifeCharts("#lifespan");
-      return this.draw();
+    LifeSpan.main = function() {
+      LifeSpan.fixture = new Denigma.Fixture();
+      LifeSpan.charts = new Denigma.Charts("#lifespan");
+      LifeSpan.position();
+      return LifeSpan.generate();
     };
 
-    LifeSpan.prototype.draw = function() {
-      var c, data, h, svg, w, x, y;
-      data = this.fixture.generate(10);
-      w = 500;
-      c = 64;
-      h = c * data.length;
-      svg = this.charts.svg;
-      this.charts.setSize(w, h);
+    LifeSpan.position = function() {
+      var h, svg, w;
+      svg = LifeSpan.charts.svg;
       svg.style("background-color", "ivory");
-      y = d3.scale.ordinal().domain(c);
-      x = this.charts.makeOX(data);
-      return this.charts.draw(data);
+      w = 800;
+      h = 800;
+      return LifeSpan.charts.setSize(w, h);
     };
 
-    LifeSpan.prototype.experiment = function() {
+    LifeSpan.generate = function() {
+      var data, num;
+      num = LifeSpan.fixture.rand(2, 5);
+      data = LifeSpan.fixture.generate(num);
+      return LifeSpan.charts.draw(data);
+    };
+
+    LifeSpan.experiment = function() {
       /*
         just for fun
       */
@@ -79,38 +81,14 @@
 
     return LifeSpan;
 
-  })(Batman.Object);
+  }).call(this, Batman.Object);
 
   Denigma.on("start", function() {
     /*
       Event to initiate the main app
     */
 
-    var ls;
-    ls = new Denigma.LifeSpan();
-    return ls.main();
+    return Denigma.LifeSpan.main();
   });
-
-  /*
-    Lifespan
-  ========
-  * progress bar lifespan
-    - normal lifespan of mice, icon for mice
-  * errors bars
-  * lifespan curves
-  
-  ICONS: species
-  ICONS: manipulations (svgs)
-  
-  :Measurement a owl:Class ;
-  :min_lifespan
-  :mean_lifespan
-  :median_lifespan
-  :max_lifespan
-  :number for each individual (low-average-hight)
-  :variant +/- something
-  :pvalue < or > 0.05 (colors or artrisks) *   ** ***
-  */
-
 
 }).call(this);

@@ -23,7 +23,7 @@
     Fixture.prototype.manipulation = void 0;
 
     function Fixture() {
-      this.animal = new Denigma.Animal("mouse", "mus", 18, "mouse.svg");
+      this.species = new Denigma.Species("mouse", "mus", 18, "mouse.svg");
       this.manipulation = new Denigma.Manipulation("radiaction", "test grouped lived and mutated inside the reactor", "radiation.svg");
     }
 
@@ -69,7 +69,9 @@
     Fixture.prototype.generate = function(num) {
       var a, an, animals, control, i, int, mean, stdev, test, _i, _j, _ref;
       this.clean();
-      num = 10;
+      if (num == null) {
+        num = 10;
+      }
       mean = this.rand(10, 14);
       stdev = this.rand(5, 10);
       for (i = _i = 0; 0 <= num ? _i <= num : _i >= num; i = 0 <= num ? ++_i : --_i) {
@@ -89,7 +91,7 @@
         control.set("mean", this.rand(10, 20));
         control.set("max", this.rand(25, 30));
         this.controls.push(control);
-        int = new Denigma.Intervention(this.animal, this.manipulation, test, control);
+        int = new Denigma.Intervention(this.species, this.manipulation, test, control);
         this.ints.push(int);
       }
       return this.ints;

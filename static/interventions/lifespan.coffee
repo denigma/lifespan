@@ -9,29 +9,25 @@ class Denigma.LifeSpan extends Batman.Object
 
 
 
-  constructor: ()->
-
-  main: =>
+  @main: =>
     @fixture = new Denigma.Fixture()
-    @charts = new Denigma.LifeCharts("#lifespan")
-    @draw()
+    @charts = new Denigma.Charts("#lifespan")
+    @position()
+    @generate()
 
-  draw: =>
-    data = @fixture.generate(10)
-    w = 500
-    c = 64
-    h = c * data.length
+  @position: =>
     svg = @charts.svg
-    @charts.setSize(w,h)
     svg.style("background-color","ivory")
-    y = d3.scale.ordinal().domain(c)#.rangeBands([@marginY, h-@marginY])
-    x = @charts.makeOX(data)
+    w = 800
+    h = 800
+    @charts.setSize(w,h)
+
+  @generate: =>
+    num = @fixture.rand(2,5)
+    data = @fixture.generate(num)
     @charts.draw(data)
-    #sel = @charts.select(data)
 
-    #els = @charts.enter(data)
-
-  experiment: =>
+  @experiment: =>
     ###
       just for fun
     ###
@@ -58,27 +54,6 @@ Denigma.on "start", ->
   ###
     Event to initiate the main app
   ###
-  ls = new Denigma.LifeSpan()
-  ls.main()
+  Denigma.LifeSpan.main()
   #ls.experiment()
 
-###
-  Lifespan
-========
-* progress bar lifespan
-  - normal lifespan of mice, icon for mice
-* errors bars
-* lifespan curves
-
-ICONS: species
-ICONS: manipulations (svgs)
-
-:Measurement a owl:Class ;
-:min_lifespan
-:mean_lifespan
-:median_lifespan
-:max_lifespan
-:number for each individual (low-average-hight)
-:variant +/- something
-:pvalue < or > 0.05 (colors or artrisks) *   ** ***
-###

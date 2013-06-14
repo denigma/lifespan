@@ -19,7 +19,7 @@ class Denigma.Intervention extends Batman.Object
     get: -> @test.get("min") - @control.get("min")
 
 
-  constructor: (@animal, @manipulation, @test, @control)->
+  constructor: (@species, @manipulation, @test, @control)->
     ###
       constructor that stores test, control groups and manipulations
     ###
@@ -39,6 +39,8 @@ class Denigma.Intervention extends Batman.Object
   @getControlMean: (d)=>@scale() * d.control.get "mean"
   @getControlMedian: (d)=>@scale() * d.control.get "median"
   @getControlMax: (d)=>@scale() * d.control.get "max"
+
+  @getSpeciesName: (d)=>d.species.commonName
 
 
 

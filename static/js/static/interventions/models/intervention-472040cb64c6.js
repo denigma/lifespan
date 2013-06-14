@@ -41,8 +41,8 @@
       }
     });
 
-    function Intervention(animal, manipulation, test, control) {
-      this.animal = animal;
+    function Intervention(species, manipulation, test, control) {
+      this.species = species;
       this.manipulation = manipulation;
       this.test = test;
       this.control = control;
@@ -91,6 +91,10 @@
 
     Intervention.getControlMax = function(d) {
       return Intervention.scale() * d.control.get("max");
+    };
+
+    Intervention.getSpeciesName = function(d) {
+      return d.species.commonName;
     };
 
     return Intervention;

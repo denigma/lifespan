@@ -7,19 +7,28 @@
       this.rowMargin = rowMargin;
       this.rowHeight = rowHeight;
       this.marginX = marginX;
-      this.contentHeight = __bind(this.contentHeight, this);
       this.makeCentered = __bind(this.makeCentered, this);
       this.getMiddlePos = __bind(this.getMiddlePos, this);
       this.getBottomPos = __bind(this.getBottomPos, this);
       this.getTopPos = __bind(this.getTopPos, this);
+      this.contentHeight = __bind(this.contentHeight, this);
+      this.getRowPos = __bind(this.getRowPos, this);
     }
 
-    RowPoser.prototype.getTopPos = function(d, i) {
-      return i * this.rowHeight + i * this.rowMargin / 2;
+    RowPoser.prototype.getRowPos = function(d, i) {
+      return i * this.rowHeight + i * this.rowMargin;
     };
 
-    RowPoser.prototype.getBottomPos = function(d, i) {
-      return (i + 1) * (this.rowHeight + this.rowMargin) - this.rowMargin * 2;
+    RowPoser.prototype.contentHeight = function() {
+      return this.rowHeight - this.rowMargin;
+    };
+
+    RowPoser.prototype.getTopPos = function(d) {
+      return this.rowHeight + this.rowMargin / 2;
+    };
+
+    RowPoser.prototype.getBottomPos = function(d) {
+      return this.rowHeight + this.rowMargin - this.rowMargin * 2;
     };
 
     RowPoser.prototype.getMiddlePos = function(h) {
@@ -27,8 +36,8 @@
       if (h == null) {
         h = 0;
       }
-      return function(d, i) {
-        return i * _this.rowHeight + i * _this.rowMargin / 2 + _this.contentHeight() / 2 - _this.rowMargin / 4 - h / 2;
+      return function(d) {
+        return (_this.contentHeight() - h) / 2;
       };
     };
 
@@ -41,10 +50,6 @@
       return function(d, i) {
         return fun(d, i) - h / 2;
       };
-    };
-
-    RowPoser.prototype.contentHeight = function() {
-      return this.rowHeight - this.rowMargin / 2;
     };
 
     return RowPoser;

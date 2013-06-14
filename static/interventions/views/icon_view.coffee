@@ -8,20 +8,29 @@ class Denigma.IconView extends Denigma.BasicView
     super(poser)
 
 
-  addIcons: (row)->
+  addIcons: (icons)->
     ###
       this function add all icons to the rowumn and groups them inside svg
     ###
-    icon = row.append("svg")
-    icon.attr "class", "icon"
-    icon.append("rect").attr("class","billet") #TODO: move to another place
-    icon.append("image").attr("class","animal")
-      .attr("x",0)
-    icon.append("image").attr("class","manipulation")
+
+    #pos = @poser.getTopPos
+    #icon.attr("y",pos)
+    icons.append("rect")
+      .attr("class","billet") #TODO: move to another place
+    icons.append("image")
+      .attr("class","species")
       .attr("x",0)
 
+    icons.append("image").attr("class","manipulation")
+      .attr("x",0)
 
-  getAnimalPic: (d)=>"#{@resources}/#{d.animal.icon}"
+    icons.append("text")
+      .attr("class","label")
+      .text("species") #test text
+      .attr("x",0)
+      .attr("font-size","16pt")
+
+  getAnimalPic: (d)=>"#{@resources}/#{d.species.icon}"
 
   getManipulationPic: (d)=>"#{@resources}/#{d.manipulation.icon}"
 
@@ -29,36 +38,58 @@ class Denigma.IconView extends Denigma.BasicView
     ###
       make all icons drawing and binding routine
     ###
+    width = sel.attr("width")
 
-    h = @poser.contentHeight()
+    icLen = @poser.contentHeight() #length (w and h ) of the icon
+    manLen = icLen / 2
 
-    pos = @poser.getTopPos
-    posM  = @poser.getMiddlePos(h/2)
+    lw = width - icLen - manLen - @poser.marginX
+
+    posM  = @poser.getMiddlePos(manLen)
 
     sel.select("rect.billet")
-      .attr("x",0)
-      .attr("y",pos)
-      .attr("width",h*1.5+@poser.marginX*2)
-      .attr("height",h)
+      .attr("width",width)
+      .attr("height",icLen)
       .attr("rx",10)
       .attr("ry",10)
 
 
     gpa = @getAnimalPic
-    sel.select("image.animal").transition().duration(@dur)
+    sel.select("image.species").transition().duration(@dur)
       .attr("xlink:href",gpa)
       .attr("x",@poser.marginX)
-      .attr("y",pos)
-      .attr("width",h)
-      .attr("height",h)
+      .attr("width",icLen)
+      .attr("height",icLen)
+
+
 
     gma = @getManipulationPic
-    sel.select("image.manipulation").transition().duration(@dur)
-      .attr("xlink:href",gma)
-      .attr("x",@poser.marginX+h)
+    manip = sel.select("image.manipulation")
+    manip.attr("xlink:href",gma)
+      .attr("width",manLen)
+      .attr("height",manLen)
+    manip.transition().duration(@dur)
+      .attr("x",icLen+lw)
       .attr("y",posM)
-      .attr("width",h/2)
-      .attr("height",h/2)
+
+    gsp = Denigma.Intervention.getSpeciesName
+
+    txt = sel.select("text")
+    txt
+    .attr("class","label")
+    .attr("width",lw)
+    .attr("height",icLen)
+    .attr("y",manLen)
+    .attr("x",icLen+@poser.marginX)
+    .text(gsp)
+
+    #spName = Denigma.Intervention.getSpeciesName
+    txt.transition().duration(@dur)
+      .attr("x",icLen+@poser.marginX*2)
+      .attr("width",lw)
+      .attr("height",icLen)
+
+
 
   append: (novel)->
     @addIcons(novel)

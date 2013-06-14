@@ -1,14 +1,15 @@
 class Denigma.BarView extends Denigma.BasicView
 
+
+
   constructor: (poser,@minW,@minH,@dur)->
     super(poser)
 
     #sel.select(".icon text").text (d)->d.animal.name
 
   addTest: (row)->
-    x = 2*(@poser.rowHeight+@poser.rowMargin/2) - @poser.marginX
     test = row.append("svg")
-    test.attr("class", "test").attr("x",x)
+    test.attr("class", "test")
     test.append("rect").attr("class","max")
     test.append("rect").attr("class","mean")
     test.append("rect").attr("class","min")
@@ -16,9 +17,8 @@ class Denigma.BarView extends Denigma.BasicView
 
 
   addControl: (row)->
-    x = 2*(@poser.rowHeight-@poser.rowMargin/2) - @poser.marginX
     control = row.append("svg")
-    control.attr("class", "control").attr("x",x)
+    control.attr("class", "control")
     control.append("rect").attr("class","max")
     control.append("rect").attr("class","mean")
     control.append("rect").attr("class","min")
@@ -63,12 +63,15 @@ class Denigma.BarView extends Denigma.BasicView
     ###
      redraws bars in accordance with binding info
     ###
+    #alert sel.attr("width")
     gcMax = Denigma.Intervention.getControlMax
     gcMean = Denigma.Intervention.getControlMean
     gcMin = Denigma.Intervention.getControlMin
 
     h = @minH *3
     pos = @poser.getMiddlePos(h)
+
+
 
     min = sel.select(".control .min")
     mean = sel.select(".control .mean")
