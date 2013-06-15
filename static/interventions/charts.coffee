@@ -1,8 +1,6 @@
 class Denigma.Charts
   ###
     class to generate chars with d3js
-
-    WARNING: the code is very dirty with a lot of hardcoded stuff :(((((((((
   ###
 
   node: undefined

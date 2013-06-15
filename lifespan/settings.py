@@ -19,10 +19,6 @@ print(BASE_DIR)
 print(PACKAGE_ROOT)
 print(BASE_DIR == PACKAGE_ROOT)
 
-COFFEESCRIPT_MTIME_DELAY = 1
-COFFEESCRIPT_OUTPUT_DIR = "COFFEESCRIPT_CACHE"
-
-
 # from gears.environment import Environment
 # from gears.finders import FileSystemFinder
 #
@@ -62,6 +58,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'coffeescript',
+    'less',
 )
 
 
@@ -91,6 +88,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'coffeescript.finders.CoffeescriptFinder',
+    'less.finders.LessFinder',
 )
 
 
@@ -100,16 +98,19 @@ STATICFILES_FINDERS = (
 
 STATIC_URL = '/static/'
 
+
+COFFEESCRIPT_MTIME_DELAY = 1
 COFFEESCRIPT_OUTPUT_DIR = "./static/js"
+
+LESS_MTIME_DELAY = 1
+LESS_OUTPUT_DIR = "./static/css"
+
+
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     "static",
 )
-
-
-# GEARS_COMPILERS = {
-# '.coffee': 'gears_coffeescript.CoffeeScriptCompiler',
-# }
 
 
 ROOT_URLCONF = 'lifespan.urls'
