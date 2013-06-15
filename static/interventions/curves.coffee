@@ -1,4 +1,4 @@
-class Denigma.Curves
-  ###
-    class to generate chars with d3js
-  ###
+class Denigma.Curves extends Denigma.Charts
+
+  constructor: (selector)->
+    super(selector)

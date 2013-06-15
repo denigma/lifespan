@@ -5,50 +5,37 @@
 class Denigma.LifeSpan extends Batman.Object
 
   fixture: undefined
-  charts: undefined
+  barcharts: undefined
+  @w: 640
+  @h: 640
 
 
 
   @main: =>
     @fixture = new Denigma.Fixture()
-    @charts = new Denigma.Charts("#lifespan")
-    @position()
-    @generate()
+    @barcharts = new Denigma.BarCharts("#lifespanbars","row")
+    @positionBars()
+    @generateBars()
 
-  @position: =>
-    svg = @charts.svg
-    svg.style("background-color","ivory")
-    w = 800
-    h = 800
-    @charts.setSize(w,h)
+    @curves = new Denigma.Curves("#lifespancurves","point")
+    @positionCurves()
 
-  @generate: =>
+  @positionBars: =>
+    @barcharts.svg.attr("class","chart")
+    @barcharts.setSize(@w,@h)
+
+  @generateBars: =>
     num = @fixture.rand(2,5)
     data = @fixture.generate(num)
-    @charts.draw(data)
+    @barcharts.draw(data)
 
-  @experiment: =>
-    ###
-      just for fun
-    ###
-
-    table = d3.select("table")
-    tr = table.selectAll("tbody tr")
+  @positionCurves: =>
+    @curves.svg.attr("class","chart")
+    @curves.setSize(@w,@h)
 
 
-    td = tr.selectAll("td")
+  @generateCurves: =>
 
-    tr.transition().duration(1000).style "font-size", (d, i) ->  switch i
-      when 0 then "10pt"
-      when 1 then "20pt"
-      when 2 then "3opt"
-      else "40pt"
-
-    td.style("background-color","white").transition().duration(1000).style "background-color", (d, i) ->  switch i
-      when 0 then "red"
-      when 1 then "navy"
-      when 3 then "yellow"
-      else "white"
 
 Denigma.on "start", ->
   ###
