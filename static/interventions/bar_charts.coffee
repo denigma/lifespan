@@ -6,8 +6,6 @@ class Denigma.BarCharts extends Denigma.Charts
   node: undefined
   svg: undefined
 
-  marginY : 10 #top margin
-
   width: 0
   height: 0
 

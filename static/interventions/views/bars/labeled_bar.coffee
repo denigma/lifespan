@@ -1,7 +1,5 @@
 class Denigma.LabeledBar extends Denigma.ExperimentBar
 
-
-
   append: (row)->
     bars = super(row)
     bars.append("rect").attr("class","textmax")

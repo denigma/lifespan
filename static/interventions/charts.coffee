@@ -1,3 +1,13 @@
+###
+  the basic workflow with charts is the following::
+
+    on construction you pass the id of the element where you want to insert your charts to
+    and the name of the class for your basic elements
+
+  When you want to draw something you
+
+
+###
 class Denigma.Charts
   ###
     abstract class that works with charts
@@ -5,7 +15,7 @@ class Denigma.Charts
 
   node: undefined
   svg: undefined
-
+  marginX : 10 #left margin
   marginY : 10 #top margin
 
   width: 0
@@ -20,8 +30,6 @@ class Denigma.Charts
     ###
     @node = d3.select(@selector)
     @svg = @node.append("svg")
-
-
 
   select: (data)->
     @svg.selectAll("svg.#{@subclass}").data(data)

@@ -21,6 +21,7 @@ class Denigma.Fixture extends Batman.Object
     ###
       closer to normal distribution
       where stdev = standard deviation
+      TODO: change this ugly piece of code to something else
     ###
     Math.round @rnd_snd() * stdev + mean
 
@@ -37,19 +38,22 @@ class Denigma.Fixture extends Batman.Object
     @tests =  []
     @ints =  []
 
+  genOrganisms: (mean,stdev)->
+    animals = []
+    for a in [0..@rand(5,15)]
+      an = @rnd(mean,stdev)
+      an = an*-1 if an<=0
+      animals.push(an)
+    animals
+
   generate: (num)->
     @clean()
     num = 10 unless num?
     mean = @rand(10,14)
     stdev = @rand(5,12)
     for i in [0..num]
-      animals = []
-      for a in [0..@rand(5,15)]
-        an = @rnd(mean,stdev)
-        an = an*-1 if an<=0
-        animals.push(an)
-
-      test = new Denigma.Experiment("Chernobyl mouse",animals)
+      organisms = @genOrganisms(mean,stdev)
+      test = new Denigma.Experiment("Chernobyl mouse",organisms)
       @tests.push(test)
 
       control = new Denigma.Experiment("House mouse")
@@ -63,3 +67,12 @@ class Denigma.Fixture extends Batman.Object
       @ints.push(int)
     @ints
 
+  generateCurves: (num)->
+    num = 10 unless num?
+    mean = @rand(10,14)
+    stdev = @rand(5,12)
+    res = []
+    for i in [0..num]
+      mouse = new Denigma.Experiment("Chernobyl mouse",@genOrganisms(mean,stdev))
+      res.push(mouse)
+    res

@@ -1,6 +1,9 @@
 ============
 Lifespan App
 ============
+
+This repository is devoted
+
 Anton: inside there are my experiments with lifespan and chats.
 
 Warning: temporaly you will have to do:
@@ -38,3 +41,48 @@ Setup
     sudo npm install -g batman
     sudo npm install -g less
 
+Architecture
+============
+
+Lifespan charts are based on d3js library and also use some features of Batmanjs library
+It is highly recommended to learn a little bit of d3.js before looking at the code.
+There are a lot of good tutorials and even books at d3js website ( https://github.com/mbostock/d3/wiki/Tutorials ) it is enough to read anyone of them.
+
+Basic charts workflow
+---------------------
+
+Both Denigma.BarCharts and Denigma.Curves inherit from Denigma.Charts and preserve some common methods and workflow.
+
+So let's take a look at it.
+  On construction you pass the id of the element where you want to insert your charts to
+    and the name of the class for your basic elements
+
+  When you want to draw something you call draw(data) function of the chart and path your data there.
+  ```coffeescript
+      draw: (data)->
+          sel =  @select(data)
+          @hide(sel.exit())
+          novel = @append(sel.enter())
+          @update(sel)
+  ```
+  Here the data is selected with select function and binded to svg elements that will be containers.
+  ```coffeescript
+       select: (data)->
+          @svg.selectAll("svg.#{@subclass}").data(data)
+
+  ```
+  The data is binded to appropriate visual elements.
+  The data that has no visual elements is retrieved by sel.enter() and will be used to create them by:
+   ```coffeescript
+    novel = @append(sel.enter())
+   ```
+  The elements for which there is no data (for instance you removed some points) is called sel.exit() and the will be hidden and then removed
+  After all new elements have been added we update all visual elements in accordance with the data received
+  Other elements will be simply updated
+  ```coffeescript
+    @update(sel)
+  ```
+  Denigma.BarCharts and Denigma.Curves use some classes to do parts of work
+  like Denigma.Icon for legend in bars and Denigma.BarView to render bars themselves.
+  Most of these auxiliary classes inherit from Denigma.BasicView which works with selections and
+  has similar workflow , append, and update functions.
