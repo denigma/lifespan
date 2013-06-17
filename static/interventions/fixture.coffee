@@ -43,6 +43,7 @@ class Denigma.Fixture extends Batman.Object
     for a in [0..@rand(5,15)]
       an = @rnd(mean,stdev)
       an = an*-1 if an<=0
+      if(an==0) then an = 1
       animals.push(an)
     animals
 
@@ -50,17 +51,22 @@ class Denigma.Fixture extends Batman.Object
     @clean()
     num = 10 unless num?
     mean = @rand(10,14)
-    stdev = @rand(5,12)
+    stdev = @rand(10,14)
     for i in [0..num]
-      organisms = @genOrganisms(mean,stdev)
-      test = new Denigma.Experiment("Chernobyl mouse",organisms)
+      testOrganisms = @genOrganisms(mean,stdev)
+      test = new Denigma.Experiment("Chernobyl mouse",testOrganisms)
       @tests.push(test)
 
-      control = new Denigma.Experiment("House mouse")
+      controlOrganisms = @genOrganisms(mean,stdev)
+
+      control = new Denigma.Experiment("House mouse",controlOrganisms)
+      ###
       control.set "number", @rand(5,10)
       control.set "min", 10
       control.set "mean", @rand(10,20)
       control.set "max", @rand(25,30)
+
+      ###
 
       @controls.push(control)
       int = new Denigma.Intervention(@species, @manipulation, test, control)
@@ -68,9 +74,9 @@ class Denigma.Fixture extends Batman.Object
     @ints
 
   generateCurves: (num)->
-    num = 10 unless num?
+    num = 5 unless num?
     mean = @rand(10,14)
-    stdev = @rand(5,12)
+    stdev = @rand(10,14)
     res = []
     for i in [0..num]
       mouse = new Denigma.Experiment("Chernobyl mouse",@genOrganisms(mean,stdev))

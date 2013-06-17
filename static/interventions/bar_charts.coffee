@@ -77,3 +77,8 @@ class Denigma.BarCharts extends Denigma.Charts
     sel.transition().duration(@durNew)
       .attr("y", pos)
       .attr("width",@width)
+
+  hide: (sel)->
+    tr = sel.transition()
+    tr.duration(@durNew).attr("y", 0)
+    tr.delay(@durNew).remove()

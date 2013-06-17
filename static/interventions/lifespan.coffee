@@ -34,7 +34,7 @@ class Denigma.LifeSpan extends Batman.Object
     @curves.setSize(@w,@h)
 
   @generateCurves: =>
-    num =  @fixture.rand(2,10)
+    num =  @fixture.rand(2,5)
     groups = @fixture.generateCurves(num)
     @curves.draw(groups)
 

@@ -36,7 +36,7 @@ class Denigma.Charts
 
   enter:(data)->@select(data).enter()
 
-  exit:(data)->@select(data).exit()
+  exit:(data)->@select(data).exit().remove()
 
   setSize: (w,h)->
     ###
@@ -60,9 +60,7 @@ class Denigma.Charts
     @update(sel)
 
   hide: (sel)->
-    tr = sel.transition()
-    tr.duration(@durNew).attr("y", 0)
-    tr.delay(@durNew).remove()
+    sel.remove()
 
 
   update: (sel)->
