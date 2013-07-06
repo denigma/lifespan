@@ -18,13 +18,12 @@ class Denigma.BarCharts extends Denigma.Charts
   durNew: 400
 
 
-  constructor: (selector,subclass)->
+  constructor: (selector,subclass,@poser)->
     ###
       jquery-like selector string is passed,
       something like '#lifespan'
     ###
     super(selector,subclass)
-    @poser = new Denigma.RowPoser(rowMargin =20, rowHeight = 56,marginX = 10, dur = 2000)
     @decorView = new Denigma.DecorView(@poser,@width)
     @iconView = new Denigma.IconView(poser = @poser, resources ="static/interventions/resources")
     @barView = new Denigma.BarView(poser =@poser,minW = 15,minH = 10)
@@ -77,6 +76,12 @@ class Denigma.BarCharts extends Denigma.Charts
     sel.transition().duration(@durNew)
       .attr("y", pos)
       .attr("width",@width)
+
+    sel.on "mouseover", (d)->d.fire("over")
+    sel.on "mouseout", (d)->d.fire("out")
+    #sel.style("stroke",(d)->d.color)
+
+    @decorView.update(sel)
 
   hide: (sel)->
     tr = sel.transition()

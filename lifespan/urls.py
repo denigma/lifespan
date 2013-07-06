@@ -5,7 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
+
+    url(r'^table$', 'lifespan.views.table', name='table'),
+
     url(r'^chat$', 'lifespan.views.chat', name='chat'),
     url(r'^chats$',  TemplateView.as_view(template_name='chats.html'), name='chats'),
 

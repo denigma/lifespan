@@ -9,7 +9,6 @@ def chat(request):
     num = str(random.randint(1, 999))
     username = "guest" +num
     password = "somewrongpassword"
-
     template = loader.get_template('chat.html')
     context = Context({
         'username': username,
@@ -23,5 +22,14 @@ def index(request):
     context = Context({
 
         })
+
+    return HttpResponse(template.render(context))
+
+
+def table(request):
+    template = loader.get_template('table.html')
+    context = Context({
+
+    })
 
     return HttpResponse(template.render(context))

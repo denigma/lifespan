@@ -12,32 +12,42 @@ class Denigma.LifeSpan extends Batman.Object
   @main: ->
     @fixture = new Denigma.Fixture()
 
-    @barcharts = new Denigma.BarCharts("#lifespanbars","row")
-    @positionBars()
-    @generateBars()
+    @poser = new Denigma.RowPoser(rowMargin =20, rowHeight = 56,marginX = 10, dur = 2000)
 
-    @curves = new Denigma.Curves("#lifespancurves","curve")
+    @barcharts = new Denigma.BarCharts("#lifespanbars","row",@poser)
+    @curves = new Denigma.Curves("#lifespancurves","curve",@poser)
+
+    @positionBars()
     @positionCurves()
-    @generateCurves()
+
+    @generate()
+
+    #@generateCurves()
 
   @positionBars: ->
     @barcharts.svg.attr("class","chart")
     @barcharts.setSize(@w,@h)
 
-  @generateBars: ->
+  @generate: ->
     num = @fixture.rand(2,5)
     data = @fixture.generate(num)
+
+    #groups = @fixture.generateCurves(num)
+    #@curves.draw(groups)
+    @curves.draw(data)
     @barcharts.draw(data)
+
 
   @positionCurves: ->
     @curves.svg.attr("class","chart")
     @curves.setSize(@w,@h)
 
+  ###
   @generateCurves: =>
     num =  @fixture.rand(2,5)
     groups = @fixture.generateCurves(num)
     @curves.draw(groups)
-
+  ###
 Denigma.on "start", ->
   ###
     Event to initiate the main app

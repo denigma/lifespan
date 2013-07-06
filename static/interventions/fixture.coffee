@@ -72,13 +72,3 @@ class Denigma.Fixture extends Batman.Object
       int = new Denigma.Intervention(@species, @manipulation, test, control)
       @ints.push(int)
     @ints
-
-  generateCurves: (num)->
-    num = 5 unless num?
-    mean = @rand(10,14)
-    stdev = @rand(10,14)
-    res = []
-    for i in [0..num]
-      mouse = new Denigma.Experiment("Chernobyl mouse",@genOrganisms(mean,stdev))
-      res.push(mouse)
-    res
