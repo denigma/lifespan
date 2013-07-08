@@ -17,16 +17,16 @@ Setup
 
 1. Git in:
 
-       git clone https://github.com/denigma/lifespan
+        git clone https://github.com/denigma/lifespan
 
-       vitualenv env
+        vitualenv env
 
-       . env/bin/activate
+        . env/bin/activate
 
-       pip install -r requirements.txt
+        pip install -r requirements.txt
 
-       ./manage.py syncdb
-       ./manage.py runserver
+        ./manage.py syncdb
+        ./manage.py runserver
 
 2. Install Nodejs, CoffeeScript and LESS:
 
@@ -35,7 +35,7 @@ Setup
    It is better to install the version from the website as various linux repositories contain outdated versions
 
    After installation you will have npm at your disposal.
-    With npm install:
+   With npm install:
 
         sudo npm install -g coffeescript
         sudo npm install -g batman
@@ -60,28 +60,28 @@ So let's take a look at it.
 
   When you want to draw something you call draw(data) function of the chart and path your data there.
   ```coffeescript
-      draw: (data)->
-          sel =  @select(data)
-          @hide(sel.exit())
-          novel = @append(sel.enter())
-          @update(sel)
+  draw: (data)->
+      sel =  @select(data)
+      @hide(sel.exit())
+      novel = @append(sel.enter())
+      @update(sel)
   ```
   Here the data is selected with select function and bound to svg elements that will be containers.
   ```coffeescript
-       select: (data)->
-          @svg.selectAll("svg.#{@subclass}").data(data)
+  select: (data)->
+      @svg.selectAll("svg.#{@subclass}").data(data)
 
   ```
   The data is bound to appropriate visual elements.
   The data that has no visual elements is retrieved by sel.enter() and will be used to create them by:
    ```coffeescript
-    novel = @append(sel.enter())
+   novel = @append(sel.enter())
    ```
   The elements for which there is no data (for instance you removed some points) is called sel.exit() and the will be hidden and then removed.
   After all new elements have been added we update all visual elements in accordance with the data received
   Other elements will be simply updated
   ```coffeescript
-    @update(sel)
+  @update(sel)
   ```
   Denigma.BarCharts and Denigma.Curves use some classes to do parts of work
   like Denigma.Icon for legend in bars and Denigma.BarView to render bars themselves.
