@@ -6,12 +6,17 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
+    url(r'^table$', 'lifespan.views.table', name='index'),
+
     url(r'^table$', 'lifespan.views.table', name='table'),
 
     url(r'^chat$', 'lifespan.views.chat', name='chat'),
-    url(r'^chats$',  TemplateView.as_view(template_name='chats.html'), name='chats'),
 
     url(r'^$', 'lifespan.views.index', name='index'),
+
+    url(r'^lifespan$', 'lifespan.views.index', name='index'),
+
+
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
