@@ -6,9 +6,16 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r'^table$', 'lifespan.views.table', name='index'),
+
+
+    url(r'^$', 'lifespan.views.index', name='index'),
+
+    url(r'^data', 'lifespan.views.load_table', name='table'),
+
+    url(r'^messages', 'lifespan.views.messages', name='messages'),
 
     url(r'^table$', 'lifespan.views.table', name='table'),
+
 
     url(r'^chat$', 'lifespan.views.chat', name='chat'),
 

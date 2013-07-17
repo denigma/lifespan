@@ -4,3 +4,4 @@ class Denigma.BasicView
   append: (novel)->console.log "row addition is not defined"
 
   update: (sel)->console.log "update is not defined"
+

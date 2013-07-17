@@ -20,9 +20,9 @@ class Denigma.DecorView extends Denigma.BasicView
     dec.each (d,i)->
       el = $(@)
       funOver = (dat)=>
-        el.attr("stroke-width",8).style("stroke",(d)->d.color)
+        el.attr("stroke-width",8).style("stroke",(d)->d.color) if el.style?
       funOut = (dat)=>
-        el.attr("stroke-width",3).style("stroke",(d)->d.color)
+        el.attr("stroke-width",3).style("stroke",(d)->d.color) if el.style?
       d.on "over", funOver
       d.on "out", funOut
 

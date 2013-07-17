@@ -17,16 +17,31 @@
 
     <script src="{% static 'lib/batman.js'%}" type="text/javascript"></script>
 
+    <!-- look down and you will understand why I am interested in concatenations =)) -->
+
     <script type="text/javascript" src="{% coffeescript "static/core/denigma.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% coffeescript "static/core/basic_view.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% coffeescript "static/core/control.coffee" %}"> </script>
+
 
     <script type="text/javascript" src="{% coffeescript "static/tables/table.coffee" %}"> </script>
 
 
 </head>
 <body>
-<table id="target" width="100%" border="1">
+<table id="main" width="100%" border="1">
 
 </table>
 
+<!--
+<div class="message" data-foreach-message="Message.all">
+    <div>
+        <title data-bind="message.user"></title>
+        <p data-bind="message.text"></p>
+    </div>
+</div>
+-->
 </body>
 </html>

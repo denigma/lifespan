@@ -8,7 +8,7 @@
 
 
 ###
-class Denigma.Charts
+class Denigma.Charts extends Denigma.Control
   ###
     abstract class that works with charts
   ###
@@ -23,20 +23,17 @@ class Denigma.Charts
   durNew: 400
 
 
-  constructor: (@selector,@subclass)->
+  constructor: (selector,subclass)->
     ###
       jquery-like selector string is passed,
       something like '#lifespan'
     ###
-    @node = d3.select(@selector)
+    super(selector,"svg",subclass)
+    #@node = d3.select(@selector)
     @svg = @node.append("svg")
 
   select: (data)->
-    @svg.selectAll("svg.#{@subclass}").data(data)
-
-  enter:(data)->@select(data).enter()
-
-  exit:(data)->@select(data).exit().remove()
+    @svg.selectAll("#{@element}.#{@subclass}").data(data)
 
   setSize: (w,h)->
     ###
@@ -45,23 +42,3 @@ class Denigma.Charts
     @width = w
     @height = h
     @svg.attr("width",w).attr("height",h)
-
-
-
-  append: (novel)->
-      error("append is not implemented")
-      novel
-
-
-  draw: (data)->
-    sel =  @select(data)
-    @hide(sel.exit())
-    novel = @append(sel.enter())
-    @update(sel)
-
-  hide: (sel)->
-    sel.remove()
-
-
-  update: (sel)->
-    error("update is not implemented")
