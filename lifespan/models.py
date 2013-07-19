@@ -9,3 +9,9 @@ class Member(models.Model):
     age = models.IntegerField()
     salary = models.FloatField()
 
+    def keys(self): return [field.name for field in self._meta.fields]
+
+    def values(self): return [getattr(self, field.name) for field in self._meta.fields]
+
+    def items(self): return {field.name:getattr(self, field.name) for field in self._meta.fields}
+

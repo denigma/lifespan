@@ -5819,7 +5819,7 @@ jQuery.extend({
 });
 
 // Support: 1.x compatibility
-// Manipulating tables requires a tbody
+// Manipulating grids requires a tbody
 function manipulationTarget( elem, content ) {
 	return jQuery.nodeName( elem, "table" ) &&
 		jQuery.nodeName( content.nodeType === 1 ? content : content.firstChild, "tr" ) ?

@@ -8,8 +8,10 @@
 <html>
 <head>
     <title></title>
+
     <link rel="stylesheet" href="{% less 'static/styles/denigma.less' %}"/>
 
+    <link rel="stylesheet" href="{% static 'lib/scrollbar/jquery.mCustomScrollbar.css'%}"  />
 
     <script src="{% static 'lib/jquery-2.0.2.js'%}" type="text/javascript"></script>
 
@@ -26,14 +28,20 @@
     <script type="text/javascript" src="{% coffeescript "static/core/control.coffee" %}"> </script>
 
 
-    <script type="text/javascript" src="{% coffeescript "static/tables/table.coffee" %}"> </script>
+    <script type="text/javascript" src="{% coffeescript "static/grids/grid.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% coffeescript "static/grids/scripts.coffee" %}"> </script>
+
+    <script src="{% static 'lib/scrollbar/jquery.mCustomScrollbar.js'%}"></script>
 
 
 </head>
 <body>
-<table id="main" width="100%" border="1">
 
-</table>
+
+<section id="main">
+
+</section>
 
 <!--
 <div class="message" data-foreach-message="Message.all">
@@ -43,5 +51,6 @@
     </div>
 </div>
 -->
+
 </body>
 </html>

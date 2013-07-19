@@ -42,18 +42,15 @@ def table(request):
 
 
 def load_table(request):
-    #Member.objects.all().delete()
-    #Member.objects.filter(id==id).delete()
-    # for i in range(0,10):
+    # Member.objects.all().delete()
+    # for i in range(0,100):
     #     name = "username_"+str(i)
     #     surname = "surname_"+str(i)
     #     user = Member(name=name, surname=surname, organization="Denigma", age=10 + i, salary=i * 1000)
     #     user.save()
-    #data = serializers.serialize("json", Member.objects.all())
     models = Member.objects.all()
-    data = [model_to_dict(model, fields=[], exclude=[]) for model in models]
-    data.insert(0, model_to_dict(models[0], fields=[], exclude=[]))
-
+    #data = {"fields":models[0].keys(),"values":[model.values() for model in models]}
+    data = [models[0].keys()] + [model.values() for model in models]
     return HttpResponse( json.dumps(data) )
 
 

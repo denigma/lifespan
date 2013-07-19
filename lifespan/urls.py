@@ -6,8 +6,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-
-
     url(r'^$', 'lifespan.views.index', name='index'),
 
     url(r'^data', 'lifespan.views.load_table', name='table'),
