@@ -6,6 +6,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
+    url(r'^models/([a-zA-Z]+)$', 'lifespan.views.writeModel', name='index'),
+
     url(r'^$', 'lifespan.views.index', name='index'),
 
     url(r'^data', 'lifespan.views.load_table', name='table'),

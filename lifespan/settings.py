@@ -15,9 +15,6 @@ import os
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
-print(BASE_DIR)
-print(PACKAGE_ROOT)
-print(BASE_DIR == PACKAGE_ROOT)
 
 # from gears.environment import Environment
 # from gears.finders import FileSystemFinder
