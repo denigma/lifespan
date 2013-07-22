@@ -11,7 +11,13 @@
       this.set('search', null);
     }
 
-    MemberController.prototype.index = function() {};
+    MemberController.prototype.index = function() {
+      return this.render({
+        view: new Batman.View({
+          html: '[<div data-yield="foo"></div>]'
+        })
+      });
+    };
 
     MemberController.prototype.out = function(node, event, context) {
       node = $(context.get("node"));

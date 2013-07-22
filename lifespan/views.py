@@ -21,8 +21,8 @@ def chat(request):
     password = "somewrongpassword"
     template = loader.get_template('chat.html')
     context = Context({
-        'username': username,
-        'password':password,
+        'user': username,
+        'hash':"somepassword",
         })
     return HttpResponse(template.render(context))
 

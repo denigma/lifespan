@@ -44,9 +44,9 @@ table tr:first-child td {
 section.grid {
   display: table;
 }
-section.grid * {
-  border: 4px double black;
-  padding: 5px;
+section.grid *.cell {
+  border: 3px double black;
+  padding: 3px;
 }
 section.grid *.row {
   display: table-row;
@@ -79,7 +79,9 @@ section.grid *.row:first-child *.cell {
   background-color: white;
   font-weight: bold;
 }
-section.grid *.selected * {
+section.grid *.selected div,
+section.grid *.selected input,
+section.grid *.selected section {
   background-color: #EDF3FE;
   font-weight: bold;
 }

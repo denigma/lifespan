@@ -4,6 +4,7 @@ class Denigma.MemberController extends Batman.Controller
     @set 'search', null
 
   index: ->
+    @render(view: new Batman.View(html: '[<div data-yield="foo"></div>]'))
 
   out: (node, event, context)->
     node  = $(context.get("node"))
