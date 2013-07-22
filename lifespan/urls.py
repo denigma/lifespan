@@ -8,7 +8,11 @@ urlpatterns = patterns('',
 
     url(r'^models/([a-zA-Z]+)$', 'lifespan.views.writeModel', name='index'),
 
-    url(r'^$', 'lifespan.views.index', name='index'),
+    url(r'^$', 'lifespan.views.grid', name='index'),
+
+    url(r'^Member$', 'lifespan.views.members', name='index'),
+
+    url(r'^html/.+$', 'lifespan.views.blank', name='index'),
 
     url(r'^data', 'lifespan.views.load_table', name='table'),
 

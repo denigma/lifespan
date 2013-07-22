@@ -79,3 +79,7 @@ section.grid *.row:first-child *.cell {
   background-color: white;
   font-weight: bold;
 }
+section.grid *.selected * {
+  background-color: #EDF3FE;
+  font-weight: bold;
+}

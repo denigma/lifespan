@@ -61,11 +61,23 @@ def messages(request):
     data = serializers.serialize("json", Member.objects.all())
     return HttpResponse( data )
 
+def grid(request):
+    model = "Member".lower()
+    template = loader.get_template('grid.html')
+    modelClass = get_model("lifespan",model)
+    models = modelClass.objects.all()
+    fields = models[0].keys()
+    context = Context({
+        "model": model,
+        "fields": fields,
+    })
+    return HttpResponse(template.render(context))
+
 
 def writeModel(request,model):
     model = model.title()
     filename = model+".coffee"
-    path = os.path.abspath("static/models/" + filename)
+    path = os.path.abspath("static/models/" + filename.lower())
     template_name = "model.coffee.html"
     template = loader.get_template(template_name)
     key = model
@@ -81,8 +93,20 @@ def writeModel(request,model):
         "storage_key":key
     })
     open(path, "w").write(render_to_string(template_name, context))
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(context), mimetype="application/json")
 
 
+def members(request):
+    # Member.objects.all().delete()
+    # for i in range(0,100):
+    #     name = "username_"+str(i)
+    #     surname = "surname_"+str(i)
+    #     user = Member(name=name, surname=surname, organization="Denigma", age=10 + i, salary=i * 1000)
+    #     user.save()
+    models = Member.objects.all()
+    #data = {"fields":models[0].keys(),"values":[model.values() for model in models]}
+    data = [model.items() for model in models]
+    return HttpResponse( json.dumps(data), mimetype="application/json")
 
-
+def blank(request):
+    return HttpResponse("this is blank for some reason!")

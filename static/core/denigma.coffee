@@ -16,7 +16,6 @@ class Denigma extends Batman.App
   Application object of the chat
   ###
 
-  @root ''
 
 #stores to global container
 container = Batman.container
@@ -31,8 +30,8 @@ class Batman.EmptyDispatcher extends Batman.Object
 #add listener to the window object to fire run when everything has been loaded
 if(window?)
   window.addEventListener 'load', ->
-    disp = new Batman.EmptyDispatcher()
-    Denigma.set "navigator", disp
-    Denigma.set "dispatcher", disp
+    #disp = new Batman.EmptyDispatcher()
+    #Denigma.set "navigator", disp
+    #Denigma.set "dispatcher", disp
     Denigma.run()
     Denigma.fire "start"

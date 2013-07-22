@@ -62,6 +62,7 @@ table
   width: auto;
 }
 
+
 section.grid   {
 
   display: table;
@@ -71,6 +72,9 @@ section.grid   {
     border: 4px double black;
     padding: 5px;
   }
+
+
+
 
   *.row        { display: table-row }
   *.cell      { display: table-cell }
@@ -93,6 +97,16 @@ section.grid   {
     font-weight: bold;
   }
 
+  *.selected
+  {
+    *
+    {
+      background-color: #EDF3FE;
+      font-weight: bold;
+    }
+  }
+
+
 
   //  thead     { display: table-header-group }
 //  tbody     { display: table-row-group }
@@ -104,3 +118,4 @@ section.grid   {
 
 
 }
+
