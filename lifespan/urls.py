@@ -1,33 +1,24 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-
+from tables import *
+from grids import *
+from chats import *
+from django.http import HttpResponseRedirect
 from django.contrib import admin
 admin.autodiscover()
 
+from django.views.generic import RedirectView
+
 urlpatterns = patterns('',
 
-    url(r'^$', 'lifespan.views.grid', name='index'),
+    (r'^$', RedirectView.as_view(url='/grids/')), #redirect to the most used app
+
+    url(r'^grids/', include('grids.urls', namespace="grids")),
+    url(r'^tables/' , include('tables.urls', namespace="tables")),
+    url(r'^chat/', include('chats.urls', namespace="chats")),
 
     url(r'^$', 'lifespan.views.index', name='index'),
-
-    url(r'^models/([a-zA-Z]+)$', 'lifespan.views.writeModel', name='index'),
-
-    url(r'^Member$', 'lifespan.views.members', name='index'),
-
-    #url(r'^html/.+$', 'lifespan.views.blank', name='index'),
-
-    url(r'^data', 'lifespan.views.load_table', name='table'),
-
-    url(r'^messages', 'lifespan.views.messages', name='messages'),
-
-    url(r'^table$', 'lifespan.views.table', name='table'),
-
-    url(r'^chat$', 'lifespan.views.chat', name='chat'),
-
-    url(r'^lifespan$', 'lifespan.views.index', name='index'),
-
-
-    # url(r'^blog/', include('blog.urls')),
+    url(r'^lifespan/', 'lifespan.views.index', name='index'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

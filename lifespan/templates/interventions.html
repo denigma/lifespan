@@ -1,0 +1,85 @@
+{% load static %}
+
+{% load staticfiles %}
+
+{% load coffeescript%}
+
+{% load less %}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Lifespan charts</title>
+
+        <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'denigma.less' %}"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'lifespan_bars.less' %}"/>
+
+
+        <script src="{% static 'lib/jquery-2.0.2.js' %}" type="text/javascript"></script>
+
+        <script src="{% static 'lib/d3.js' %}" type="text/javascript"></script>
+
+        <script src="{% static 'lib/batman.js' %}" type="text/javascript"></script>
+
+        <!-- look down and you will understand why I am interested in concatenations =)) -->
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/denigma.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/utils/poser.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/basic_view.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/control.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/charts.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "models/species.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "models/manipulation.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "models/experiment.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "models/intervention.coffee" %}"> </script>
+
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "views/decor_view.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "views/icon_view.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "views/bars/experiment_bar.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "views/bars/labeled_bar.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "views/bar_view.coffee" %}"> </script>
+
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "bar_charts.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "fixture.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "lifespan.coffee" %}"> </script>
+
+        <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "curves.coffee" %}"> </script>
+
+
+
+</head>
+<body>
+<table  id="generator">
+ <tr>
+<td id="lifespanbars" class="chart">
+    <h2>Lifespan bars</h2>
+    <button data-event-click="LifeSpan.generate">Generate</button>
+
+</td>
+    <td id="lifespancurves" class="chart">
+        <h2>Lifespan curves</h2>
+        <!--<button data-event-click="LifeSpan.generateCurves">Generate curves</button>-->
+    </td>
+
+</tr>
+</table>
+
+</body>
+</html>

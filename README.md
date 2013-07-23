@@ -1,15 +1,33 @@
-Lifespan App
-============
+Lifespan repository
+===================
 
-This repository is devoted to the visualization of lifespan experiment data.
+This repository contains experimental features that will soon be integrated to Denigma
+
+It consists of several apps:
+
+Lifespan app
+------------
+
+Lifespan app is the core app of repository, it is devoted to the visualization of lifespan experiment data.
 
 Inside it there are itself experiments with lifespan data and chats.
 
-Warning: temporarily you will have to do:
+Chats
+-----
 
-    cake build
+Django part of semantictasks that will be integrated
 
-on semantic folder inside static
+
+Grids
+-----
+
+Batmanjs based new interface for Denigma tables that will allow to filter, search and edit them in ajax way. Currently on early stage.
+
+
+Tables
+------
+
+Same as grids but with d3js, it is deprecated and will be deleted soon
 
 
 Setup
@@ -41,8 +59,8 @@ Setup
         sudo npm install -g batman
         sudo npm install -g less
 
-Architecture
-------------
+Lifespan App workflow
+---------------------
 
 Lifespan charts are based on d3js library and also use some features of Batmanjs library.
 It is highly recommended to learn a little bit of d3.js before looking at the code.

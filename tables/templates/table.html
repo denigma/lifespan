@@ -1,0 +1,51 @@
+{% load static %}
+
+{% load staticfiles %}
+
+{% load coffeescript%}
+
+{% load less %}
+
+
+<html>
+<head>
+
+    <link rel="stylesheet" href="{% get_static_prefix %}{% less 'denigma.less' %}"/>
+
+    <script src="{% static 'lib/jquery-2.0.2.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/d3.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/batman.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/batman.jquery.js' %}" type="text/javascript"></script>
+
+
+    <!-- look down and you will understand why I am interested in concatenations =)) -->
+
+    <script type="text/javascript" src="{% get_static_prefix %}{% coffeescript "core/denigma.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% get_static_prefix %}{% coffeescript "core/basic_view.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% get_static_prefix %}{% coffeescript "core/control.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% get_static_prefix %}{% coffeescript "table.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{% get_static_prefix %}{% coffeescript "scripts.coffee" %}"> </script>
+
+
+    <link rel="stylesheet" href="{% static 'lib/scrollbar/jquery.mCustomScrollbar.css' %}"  />
+
+    <script src="{% static 'lib/scrollbar/jquery.mCustomScrollbar.js' %}"></script>
+
+
+</head>
+<body>
+
+
+<section id="main" class="grid">
+
+</section>
+
+</body>
+</html>
