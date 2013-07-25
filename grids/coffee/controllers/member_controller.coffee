@@ -29,7 +29,14 @@ class Denigma.MemberController extends Batman.Controller
   save: (node, event, context) ->
     alert "saving"
     model = context.get("member")
-    model.save()
+    options =
+      recordUrl: "http://localhost:8000/grids/"
+      url: "http://localhost:8000/grids/"
+      urlPrefix: "http://localhost:8000/grids/"
+      collectionUrl: "http://localhost:8000/grids/"
+
+
+    model.save(options)
 
   @accessor 'items',
     get: ->

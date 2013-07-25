@@ -62,12 +62,6 @@ def members(request):
     #return render(json.dumps(data), mimetype="application/json")
     return HttpResponse( json.dumps(data), mimetype="application/json")
 
-@csrf_exempt
-def saveMember(request,id):
-    params = QueryDict(request.body, request.encoding)
-    model = params
-    return render(request)
-
 
 def blank(request):
     return HttpResponse("this is blank for some reason!")

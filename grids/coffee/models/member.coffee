@@ -4,6 +4,6 @@ class Denigma.Member extends Batman.Model
 
   @persist Batman.RestStorage
 
-  @storageKey: 'Member'
+  @storageKey: 'member'
 
-  @urlPrefix: 'Member'
+  @url: 'grids/models/member'

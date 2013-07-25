@@ -2,6 +2,10 @@
 --extra-index-url=http://dist.pinaxproject.com/alpha/
 django==1.5.1
 south==0.8.1
+
+git+https://github.com/tomchristie/django-rest-framework.git#egg=rest_framework #for REST services
+git+https://github.com/marcgibbons/django-rest-swagger#egg=rest_framework_swagger #for REST services documentation
+
 -e git://github.com/denigma/utils.git@#egg=utils
 
 pinax-theme-bootstrap==3.0a2

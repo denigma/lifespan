@@ -1,9 +1,10 @@
 class Denigma.{{name}} extends Batman.Model
 
-  @encode {% for f in fields %}{% if not forloop.first %},{% endif %}'{{f}}'{% endfor %}
+    @encode {% for f in fields %}{% if not forloop.first %},{% endif %}'{{f}}'{% endfor %}
 
-  @persist {{storage}}
+    @persist {{storage}}
 
-  @storageKey: '{{storage_key}}'
+    @storageKey: '{{storage_key}}'
 
-  @urlPrefix: '{{storage_key}}'
+    @url: '{{ app }}/models/{{storage_key}}'
+
