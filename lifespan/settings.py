@@ -42,7 +42,8 @@ INSTALLED_APPS = [
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'lifespan.disable.DisableCSRF', #DISABLE THIS ANNOYING CSRF
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -67,6 +68,12 @@ STATICFILES_FINDERS = (
     'coffeescript.finders.CoffeescriptFinder',
     'less.finders.LessFinder',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    )
+}
 
 
 
