@@ -27,9 +27,9 @@ class Denigma.MemberController extends Batman.Controller
     @set 'search', null
 
   save: (node, event, context) ->
-    alert "saving"
     model = context.get("member")
     model.save()
+
 
   @accessor 'items',
     get: ->
