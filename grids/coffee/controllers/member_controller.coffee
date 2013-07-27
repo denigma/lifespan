@@ -4,7 +4,30 @@ class Denigma.MemberController extends Batman.Controller
     super
     @set 'search', null
 
+  addScrolling: ->
+
+    params =
+      theme:"dark-thick"
+      advanced:
+        updateOnContentResize: true
+        autoScrollOnFocus: true
+        updateOnContentResize: true
+        updateOnBrowserResize:true
+        autoHideScrollbar:true
+      scrollButtons:{
+        enable: true
+      }
+
+    verParams = params
+    $(".tbody").mCustomScrollbar(verParams)
+
+    horParams = params
+    horParams.horizontalScroll = true
+    #$("#chatboard").mCustomScrollbar(horParams)
+
   index: ->
+    addScrolling()
+
     #alert "Hello!"
     #@render(view: new Batman.View(html: '[<div data-yield="foo"></div>]'))
 

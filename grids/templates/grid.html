@@ -10,6 +10,9 @@
 
     <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'denigma.less' %}"/>
 
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'grids.less' %}"/>
+
+
     <link rel="stylesheet" href="{% static 'lib/scrollbar/jquery.mCustomScrollbar.css' %}"  />
 
     <script src="{% static 'lib/jquery-2.0.2.js' %}" type="text/javascript"></script>
@@ -40,11 +43,12 @@
 
 
 </head>
-<body>
+<body id="test">
 
 
 <!--{"salary": 0.0, "surname": "surname_0", "name": "username_0", "age": 10, "organization": "Denigma", "id": 1}-->
 <section id="main" class="grid"  data-define-view="member#index">
+    <section class="thead">
     <section class="row">
         {% for f in fields %}
         <div class="cell">{{f}}</div>
@@ -56,6 +60,8 @@
         {%  endfor %}
 
     </section>
+    </section>
+    <section class="tbody">
     <section class="row" data-foreach-{{model}}="controllers.{{model}}.items"
              data-event-click="controllers.{{model}}.click"
              data-event-mouseover="controllers.{{model}}.over"
@@ -70,9 +76,9 @@
             <Button data-event-click="controllers.{{model}}.save">Save</Button>
         </div>
     </section>
+    </section>
 
 </section>
-
 
 </body>
 </html>

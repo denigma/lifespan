@@ -16,7 +16,8 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'member', MemberViewSet)
 
 urlpatterns = patterns('',
-    url(r'models/test/member/', 'grids.views.members', name='members'),
+
+    url(r'fixture/', 'grids.views.fixture', name='fixture'),
     url(r'models/', include(router.urls)),
     url(r'^$', 'grids.views.index', name='index'),
 

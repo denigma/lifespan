@@ -6,7 +6,8 @@ from django.template import Context, loader
 from django.http import HttpResponse
 import json
 from django.core import serializers
-from lifespan.models import Member
+import grids
+from grids.models import Member
 import random
 from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
@@ -16,11 +17,12 @@ from django.db.models.loading import get_model
 from django.http import Http404
 from django.http import QueryDict
 
+#TABLES app is deprecated and will be deleted soon
 
 def index(request):
     model = "Member".lower()
     template = loader.get_template('table.html')
-    modelClass = get_model("lifespan",model)
+    modelClass = get_model("grids",model)
     models = modelClass.objects.all()
     fields = models[0].keys()
     context = Context({
