@@ -8,6 +8,8 @@ class Member(models.Model):
     age = models.IntegerField()
     salary = models.FloatField()
 
+
+    #this functions maybe redundant. I added them as I did not know how to get all model fields and values as dictionaries
     def keys(self): return [field.name for field in self._meta.fields]
 
     def values(self): return [getattr(self, field.name) for field in self._meta.fields]

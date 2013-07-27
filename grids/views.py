@@ -24,38 +24,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
-@csrf_exempt
-def save(request, model, uri):
-    if request.method == "PUT":
-        params = QueryDict(request.body, request.encoding)
-        dic = dict(params.iterlists())
-        record = Member(*dic)
-        record.save()
-        str = model + "/"+uri
-    str = model + "/"+uri
-    return HttpResponse( str)
-
-def all(request, model):
-    modelClass = get_model("lifespan",model)
-    models = modelClass.objects.all()
-    #data = {"fields":models[0].keys(),"values":[model.values() for model in models]}
-    data = [model.items() for model in models]
-    #return render(json.dumps(data), mimetype="application/json")
-    return HttpResponse( json.dumps(data), mimetype="application/json")
-
-
-@csrf_exempt
-def saveMember(request,id):
-    params = QueryDict(request.body, request.encoding)
-    model = params
-    return render(request)
-
-
-def blank(request):
-    return HttpResponse("this is blank for some reason!")
-
-
-
+#renders grid template,
 def index(request):
     model = "Member".lower()
     #template = loader.get_template('grid.html')
@@ -66,11 +35,9 @@ def index(request):
         "model": model,
         "fields": fields,
         })
-
-    #return HttpResponse(template.render(context))
     return render(request, 'grid.html',context)
 
-
+#writes model template to the coffee file
 def writeModel(request,model):
     model = model.title()
     filename = model+".coffee"
@@ -94,6 +61,10 @@ def writeModel(request,model):
     #return  render(request,"model.coffee.html",context)
 
 
+def blank(request):
+    return HttpResponse("this is blank for some reason!")
+
+#I used it only to generate fixture data
 def members(request):
     # Member.objects.all().delete()
     # for i in range(0,100):
@@ -106,7 +77,3 @@ def members(request):
     data = [model.items() for model in models]
     #return render(json.dumps(data), mimetype="application/json")
     return HttpResponse( json.dumps(data), mimetype="application/json")
-
-
-def blank(request):
-    return HttpResponse("this is blank for some reason!")

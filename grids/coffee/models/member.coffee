@@ -1,5 +1,7 @@
 class Denigma.Member extends Batman.Model
-  @serializeAsForm: false
+  serializeAsForm: false
+  @serializeAsForm: false #do not remember if it is static or normal property
+
   @encode 'id','name','surname','organization','age','salary'
 
   @validate 'id', numeric: true
