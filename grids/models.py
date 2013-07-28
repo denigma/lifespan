@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 
+#testing model to test grids
 class Member(models.Model):
     name = models.CharField(max_length=255)
     surname = models.CharField(max_length=255)

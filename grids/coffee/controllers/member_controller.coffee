@@ -1,15 +1,25 @@
 class Denigma.MemberController extends Batman.Controller
-
-  _items: undefined
-
-  fields: ["name","surname","organization","age","salary"]
+  ###
+    This controller contains basic grid events
+  ###
+  #fiels that are used in filtering
+  fields: ["id","name","surname","organization","age","salary"]
 
   constructor: ->
     super
+    @set "_items",undefined
+    @newNovice()
     for f in @fields then @set(f,"")
     @addScrolling()
 
+  newNovice: ->
+    @set "novice", new Denigma.Member()
+
+
   addScrolling: ->
+    ###
+      adds custom mscrolling to the grid
+    ###
     params =
       theme:"dark-thick"
       advanced:
@@ -30,7 +40,6 @@ class Denigma.MemberController extends Batman.Controller
     #$("#chatboard").mCustomScrollbar(horParams)
 
   index: ->
-
     #alert "Hello!"
     #@render(view: new Batman.View(html: '[<div data-yield="foo"></div>]'))
 
@@ -58,18 +67,26 @@ class Denigma.MemberController extends Batman.Controller
     model = context.get("member")
     #debugger
 
-  create: ->
-    new Denigma.Member.save()
+  add: ->
+    ###
+      creates new
+    ###
+    #new Denigma.Member.save({},)
 
   save: (node, event, context) ->
     ###
       saves model
     ###
     model = context.get("member")
+    alert JSON.stringify(Denigma.Member.get("validators"))
     model.save()
 
 
   filter: (node, event, context) ->
+    ###
+      applies filtering to the grid
+    ###
+    #gets filtering options filled by use
     opts = @get("options")
     options = {}
     for key, val of opts
@@ -77,6 +94,7 @@ class Denigma.MemberController extends Batman.Controller
         options[key] = val
     #alert JSON.stringify(options)
 
+    #updates the record in the grid
     callback = (err,records)=>
       #alert JSON.stringify(records)
       @set "_items", records
@@ -86,13 +104,6 @@ class Denigma.MemberController extends Batman.Controller
     if(@get("filtered"))
       @set("options",{})
       @filter() #update models
-
-  @set "_items",undefined
-  @set "name", ""
-  @set "surname", ""
-  @set "organization", ""
-  @set "age", ""
-  @set "salary", ""
 
   #accessor that tells us if any of fielter fields are filled
   @accessor 'filtered',
@@ -104,6 +115,7 @@ class Denigma.MemberController extends Batman.Controller
           return true
       false
 
+  #accessor that gets values from filterinputs and generate options for Model.load()
   @accessor 'options',
     get: ->
       res = {}
@@ -124,4 +136,5 @@ class Denigma.MemberController extends Batman.Controller
       vals = @get "_items"
       if vals==undefined then Denigma.get('Member.all') else vals
 
+#activates method of the contoller
 Denigma.root("member#index")

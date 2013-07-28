@@ -83,6 +83,16 @@
         </div>
     </section>
     </section>
+    <section class="tfoot">
+        {% for f in fields %}
+            <div class="cell">
+                <input type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.novice.{{ f }}">
+            </div>
+        {% endfor %}
+        <div class="cell" data-showif="controllers.{{model}}.novice.isDirty">
+            <Button data-event-click="controllers.{{model}}.add">Add</Button>
+        </div>
+    </section>
 
 </section>
 
