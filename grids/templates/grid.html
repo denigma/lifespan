@@ -56,8 +56,14 @@
     </section>
     <section class="row">
         {% for f in fields %}
-            <div class="cell"><input type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.search"></div>
+            <div class="cell"><input type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.{{f}}"></div>
         {%  endfor %}
+        <div class="cell">
+            <Button data-event-click="controllers.{{model}}.filter">Filter</Button>
+        </div>
+        <div class="cell" data-showif="controllers.{{model}}.filtered">
+            <Button data-event-click="controllers.{{model}}.clear">Clear</Button>
+        </div>
 
     </section>
     </section>
