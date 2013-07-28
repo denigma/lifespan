@@ -12,7 +12,16 @@ class Denigma.MemberController extends Batman.Controller
     for f in @fields then @set(f,"")
     @addScrolling()
 
+
+  clean: (node, event, context)->
+    @newNovice()
+
+
+
   newNovice: ->
+    ###
+      prepares new model for creation
+    ###
     @set "novice", new Denigma.Member()
 
   addScrolling: ->
@@ -57,13 +66,18 @@ class Denigma.MemberController extends Batman.Controller
     node.addClass("selected")
 
 
-  add: ->
+  add: (node, event, context)->
     ###
-      creates new
+      creates new  model
+      TODO: figure out what to do with id
     ###
-    nov = @get("novice")
-    nov.save()
-    @newNovice()
+    model = @get("novice")
+    node = $(node).parent().parent()
+    #node  = $(context.get("node"))
+    #debugger
+    @validate(model,node)
+    model.save()
+    unless model.get("errors").length>0 then @newNovice()
 
   validate: (model,node)->
     ###
