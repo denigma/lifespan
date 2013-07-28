@@ -1,9 +1,9 @@
-class Denigma.MemberController extends Batman.Controller
+class Denigma.{{ title }}Controller extends Batman.Controller
   ###
     This controller contains basic grid events
   ###
   #fiels that are used in filtering
-  fields: ["id","name","surname","organization","age","salary"]
+  fields: [{% for f in fields %}{% if not forloop.first %},{% endif %}'{{f}}'{% endfor %}]
 
   constructor: ->
     super
@@ -13,7 +13,7 @@ class Denigma.MemberController extends Batman.Controller
     @addScrolling()
 
   newNovice: ->
-    @set "novice", new Denigma.Member()
+    @set "novice", new Denigma.{{ title }}()
 
   addScrolling: ->
     ###
@@ -81,7 +81,7 @@ class Denigma.MemberController extends Batman.Controller
     model.validate(onerror)
 
   blur: (node, event, context) ->
-    model = context.get("member")
+    model = context.get("{{ storage_key }}")
     node  = $(context.get("node"))
     @validate(model,node)
 
@@ -90,7 +90,7 @@ class Denigma.MemberController extends Batman.Controller
       saves model,
       TODO: rewrite in less ugly way
     ###
-    model = context.get("member")
+    model = context.get("{{ storage_key }}")
     node  = $(context.get("node"))
     @validate(model,node)
     model.save()
@@ -99,7 +99,7 @@ class Denigma.MemberController extends Batman.Controller
     ###
       saves model
     ###
-    model = context.get("member")
+    model = context.get("{{ storage_key }}")
     model.destroy()
 
 
@@ -119,7 +119,7 @@ class Denigma.MemberController extends Batman.Controller
     callback = (err,records)=>
       #alert JSON.stringify(records)
       @set "_items", records
-    Denigma.Member.load(options,callback)
+    Denigma.{{ title }}.load(options,callback)
 
   clear: (node, event, context) ->
     if(@get("filtered"))
@@ -155,7 +155,7 @@ class Denigma.MemberController extends Batman.Controller
   @accessor 'items',
     get: ->
       vals = @get "_items"
-      if vals==undefined then Denigma.get('Member.all') else vals
+      if vals==undefined then Denigma.get('{{ title }}.all') else vals
 
 #activates method of the contoller
-Denigma.root("member#index")
+Denigma.root("{{ storage_key }}#index")

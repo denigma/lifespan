@@ -28,7 +28,10 @@ def index(request):
     return render(request, 'grid.html',context)
 
 #writes model template to the coffee file
-def writeModel(request,model):
+def writeCoffee(request,model):
+    #TODO: check model and controller templates as they may be outdated
+    #TODO: add generation for constrains based on fieldtypes for models
+    #TODO: add controller generation from controller's template
     model = model.title()
     filename = model+".coffee"
     path = os.path.abspath("coffee/models/" + filename.lower())
@@ -41,7 +44,7 @@ def writeModel(request,model):
     models = modelClass.objects.all()
     fields = models[0].keys()
     context = RequestContext({
-        "name": model,
+        "title": model,
         "storage":"Batman.RestStorage",
         "fields": fields,
         "storage_key":key

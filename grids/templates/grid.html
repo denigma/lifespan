@@ -56,7 +56,7 @@
     </section>
     <section class="row">
         {% for f in fields %}
-            <div class="cell"><input type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.{{f}}"></div>
+            <div class="cell"><input class="{{f}}" type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.{{f}}"></div>
         {%  endfor %}
         <div class="cell">
             <Button data-event-click="controllers.{{model}}.filter">Filter</Button>
@@ -69,15 +69,20 @@
     </section>
     <section class="tbody">
     <section class="row" data-foreach-{{model}}="controllers.{{model}}.items"
-             data-event-click="controllers.{{model}}.click"
              data-event-mouseover="controllers.{{model}}.over"
              data-event-mouseout="controllers.{{model}}.out"
             >
         {% for f in fields %}
         <div class="cell">
-            <input type="text" placeholder="{{f}}" data-bind="{{model}}.{{f}}">
+            <input class="{{f}}" type="text"
+                   placeholder="{{f}}" data-bind="{{model}}.{{f}}"
+                   data-event-blur="controllers.{{model}}.blur"
+                    >
         </div>
         {% endfor %}
+        <div class="cell remove">
+            <Button data-event-click="controllers.{{model}}.remove">x</Button>
+        </div>
         <div class="cell" data-showif="{{ model }}.isDirty">
             <Button data-event-click="controllers.{{model}}.save">Save</Button>
         </div>
