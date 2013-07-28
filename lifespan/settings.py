@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'south',
     'coffeescript',
-    'less',] + apps
+    'less',
+    'django_filters'] + apps
 
 
 MIDDLEWARE_CLASSES = (
@@ -72,7 +73,11 @@ STATICFILES_FINDERS = (
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
     )
+
 }
 
 

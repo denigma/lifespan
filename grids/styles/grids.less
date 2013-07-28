@@ -6,29 +6,33 @@
 section.grid   {
 
   //display: table;
+  float: left;
 
+  *.row
+  {
+    display: table-row
+  }
 
-  *.cell {
+  *.cell      {
+    display: table-cell;
     border: 3px double black;
     padding: 3px;
   }
-
-
-
-
-  *.row        { display: table-row }
-  *.cell      { display: table-cell }
   *.thead {
     display: table-header-group;
   }
+
   *.tbody {
     display: table-row-group;
     //display: table-row-group;
     max-height: 80%;
     display: block;
+//    overflow-x: hidden;
+//    overflow-y: auto;
     overflow: auto;
-
+    padding-right: 20px;
   }
+
   *.footer { display: table-footer-group }
   *.col { display: table-column }
   *.caption { display: table-caption }

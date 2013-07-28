@@ -19,7 +19,7 @@ class Denigma.MemberController extends Batman.Controller
       }
 
     verParams = params
-    $(".tbody").mCustomScrollbar(verParams)
+    $("section.tbody").mCustomScrollbar(verParams)
 
     horParams = params
     horParams.horizontalScroll = true

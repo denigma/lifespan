@@ -10,19 +10,9 @@ from django.db.models.loading import get_model
 from django.http import Http404
 from django.http import QueryDict
 from django.template import RequestContext, loader
-from rest_framework import viewsets
-from rest_framework import *
-from grids import serializers
-from serializers import MemberSerializer
+
 from grids.models import *
 
-
-class MemberViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Member.objects.all()
-    serializer_class = MemberSerializer
 
 #renders grid template,
 def index(request):
@@ -63,6 +53,7 @@ def writeModel(request,model):
 
 def blank(request):
     return HttpResponse("this is blank for some reason!")
+
 
 #I used it only to generate fixture data
 def fixture(request):

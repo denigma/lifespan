@@ -18,3 +18,4 @@ eventlog==0.6
 django-jsonfield==0.8.12
 django-less==0.7.1
 -e git+https://github.com/denigma/django-coffeescript.git#egg=coffescript
+-e git+https://github.com/alex/django-filter.git#egg=django_filters
