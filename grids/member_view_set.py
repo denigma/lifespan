@@ -1,10 +1,9 @@
 from __future__ import unicode_literals
 
 from rest_framework import viewsets
-from rest_framework import *
 from grids import serializers
 from serializers import MemberSerializer
-from grids.models import *
+from grids.models import Member
 
 from django.http import Http404
 from rest_framework import status
@@ -12,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.request import clone_request
 import warnings
 import django_filters
-from django_filters import *
+
 from rest_framework import filters
 
 

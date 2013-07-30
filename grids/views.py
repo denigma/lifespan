@@ -1,3 +1,4 @@
+import os
 import json
 
 from django.views.decorators.csrf import csrf_exempt
@@ -5,20 +6,20 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import Context, loader
 from django.template.loader import render_to_string
-import os
+
 from django.db.models.loading import get_model
 from django.http import Http404
 from django.http import QueryDict
 from django.template import RequestContext, loader
 
-from grids.models import *
+from grids.models import Member
 
 
-#renders grid template,
 def index(request):
+    """Renders grid template,"""
     model = "Member".lower()
     #template = loader.get_template('grid.html')
-    modelClass = get_model("grids",model)
+    modelClass = get_model("grids", model)
     models = modelClass.objects.all()
     fields = models[0].keys()
     context = Context({
@@ -27,8 +28,8 @@ def index(request):
         })
     return render(request, 'grid.html',context)
 
-#writes model template to the coffee file
 def writeCoffee(request,model):
+    """Writes model template to the coffee file."""
     #TODO: check model and controller templates as they may be outdated
     #TODO: add generation for constrains based on fieldtypes for models
     #TODO: add controller generation from controller's template
@@ -58,8 +59,8 @@ def blank(request):
     return HttpResponse("this is blank for some reason!")
 
 
-#I used it only to generate fixture data
 def fixture(request):
+    """Used it only to generate fixture data"""
     Member.objects.all().delete()
     for i in range(0,100):
         name = "username_"+str(i)

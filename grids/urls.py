@@ -8,19 +8,17 @@ from grids.member_view_set import *
 from django.contrib import admin
 admin.autodiscover()
 
-
 from rest_framework import routers
-from lifespan import views
+
 
 #router registers urlspatterns for REST
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'member', MemberViewSet)
 
-urlpatterns = patterns('',
-
-    url(r'fixture/', 'grids.views.fixture', name='fixture'),
+urlpatterns = patterns('grids.views',
+    url(r'fixture/', 'fixture', name='fixture'),
     url(r'models/', include(router.urls)),
-    url(r'^$', 'grids.views.index', name='index'),
+    url(r'^$', 'index', name='index'),
 
     url(r'^admin/', include(admin.site.urls)),
     )
