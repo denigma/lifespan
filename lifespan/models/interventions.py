@@ -11,300 +11,12 @@ from time import strptime
 from datetime import datetime
 import handlers
 
+from datasets.models import Reference
 from Bio import Entrez, Medline
 
 
 Entrez.email = "hevok@denigma.de"
-t_prefix = "lifespan_"
-
-
-# Helper function
-def normalize_time(date):
-    """Normalizes time attributes for storing into DateTimeField."""
-    try:
-        time = datetime(*strptime(date, "%Y/%m/%d %H:%M")[0:5])
-    except:
-        try:
-            time = datetime(*strptime(date, "%Y/%m/%d")[0:3])
-        except:
-            try:
-                time = datetime(*strptime(date, "%Y-%m-%d")[0:3])
-            except:
-                months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'Mai':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10,'Nov':11, 'Dec':12}
-                for month, number in months.items():
-                    if month in date:
-                        date = date.replace(month, unicode(number))
-                try:
-                    time = datetime(*strptime(date, "%Y %m %d")[0:3])
-                except:
-                    try:
-                        time = datetime(*strptime(date, "%Y %m")[0:3])
-                    except:
-                        time = datetime(*strptime(date, "%Y")[0:3])
-    return time
-
-def normalize_title(title):
-    title = title.lower()
-    if title.endswith('.'):
-        title = title[:-1]
-    return title
-
-class Reference(models.Model):
-    pmid = models.IntegerField(blank=True, null=True, unique=True) #) #
-    title = models.CharField(max_length=400, blank=True)
-    authors = models.TextField(blank=True)  #models.ManyToManyField(Author) max_length=250,
-    abstract = models.TextField(blank=True, null=True)
-    keywords = models.TextField(blank=True, null=True) #CharField(max_length=250, blank=True) #
-    link = models.URLField(blank=True, null=True)
-    url = models.URLField(blank=True, null=True)
-    journal = models.CharField(max_length=250, blank=True)
-    year = models.IntegerField(blank=True, null=True)
-    volume = models.CharField(max_length=20, blank=True, null=True)
-    issue = models.CharField(max_length=10, blank=True, null=True) # Was Integer, but encounterd "2-3" value!
-    pages = models.CharField(max_length=23, blank=True)
-    start_page = models.IntegerField(blank=True, null=True)
-    epub_date = models.DateField(blank=True, null=True)
-    date = models.DateField(blank=True, null=True)
-    type_of_article = models.CharField(max_length=10, blank=True, null=True)
-    short_title = models.CharField(max_length=50, blank=True, null=True)
-    alternate_journal = models.CharField(max_length=150, blank=True, null=True)
-    issn = models.IntegerField(blank=True, null=True)
-    doi = models.CharField(max_length=100, blank=True, null=True)
-    original_publication = models.CharField(max_length=100, blank=True)
-    reprint_edition = models.CharField(max_length=100, blank=True, null=True)
-    reviewed_items = models.CharField(max_length=100, blank=True, null=True)
-    legal_note = models.CharField(max_length=100, blank=True, null=True)
-    pmcid = models.IntegerField(blank=True, null=True)
-    nihmsid = models.IntegerField(blank=True, null=True)
-    article_number = models.IntegerField(blank=True, null=True)
-    accession_number = models.IntegerField(blank=True, null=True)
-    call_number = models.IntegerField(blank=True, null=True)
-    label = models.CharField(max_length=100, blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)    # Make it to a ManyToManyField. max_length=100,
-    research_notes = models.CharField(max_length=100, blank=True, null=True) # dito.
-    #file_attachment = models.FileField(blank=True)
-    author_address = models.CharField(max_length=150, blank=True, null=True)
-    #figure = models.ImageField(blank=True)
-    caption = models.CharField(max_length=100, blank=True, null=True)
-    access_date = models.DateField(blank=True, null=True)
-    translated_author = models.CharField(max_length=100, blank=True, null=True)
-    name_of_database = models.CharField(max_length=100, blank=True, null=True)
-    database_provider = models.CharField(max_length=100, blank=True, null=True)
-    language = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField(max_length=75, blank=True, null=True)
-
-    categories = models.ManyToManyField('data.Entry', blank=True, null=True, related_name='references')
-
-    def __unicode__(self):
-        return u"{0} {1}".format(self.pmid, self.title)
-
-    def get_absolute_url(self):
-        return reverse('detail-reference', args=[self.pk])
-
-    def save(self, update=False, *args, **kwargs):
-        if not self.pk or update:
-            # This code only happens if the objects is not in the database yet.
-            # Otherwise it would have pk.
-            try:
-                #Reference._for_write = True
-                if self.pmid or 'pmid' in kwargs:
-                    print "Did not failed"
-                    return Reference.objects.get(pmid=self.pmid) #, False
-                elif self.title or 'title' in kwargs:
-                    #print self.title
-                    handle = Entrez.esearch(db='pubmed', term=self.title)
-                    print "Got handle"
-                    record = Entrez.read(handle)
-                    print "Got record", record
-                    print record['Count'], type(record['Count'])
-                    if record['Count'] == "1":
-                        print "Record count is 1"
-                        self.pmid = record['IdList'][0]
-                        #print self.title, self.pmid
-                        Reference.fetch_data(self)
-                        print("Saving")
-                        super(Reference, self).save(*args, **kwargs)
-                        print("Saved")
-                    else:
-                        from denigma.library import Bibliography # This statement at the top breaks Denigma for unknown reason.
-                        #print("Trying it different. %s" % type(self.title))
-                        # Google:
-                        bib = Bibliography()
-                        #print("googling")
-                        r = bib.google(self.title)
-                        if r:
-                            r = r[0]
-                            self.pmid = r.pmid
-                            #print("Google successufull: %s" % self.pmid)
-                        else:
-                        #print("Google failed.")
-                        #                           r = bib.find(self.title)[0]
-                        #                           self.pmid = r.pmid
-                        #                           print self.pmid
-                            #print("Trying it different.")
-                            r = bib.find(unicode(self.title))
-                            if len(r) == 1:
-                                r = r[0]
-                                self.pmid = r.pmid
-                                print self.pmid
-                            elif len(r) > 1:
-                                title = normalize_title(self.title)
-                                for areference in r:
-                                    if normalize_title(areference.title) == title:
-                                        r = areference
-                        print("datasets.Reference.save()")
-                        self.__dict__.update(r.__dict__)
-                        print r
-                        print vars(r)
-                        self.date = normalize_time(r.date)
-
-                        print "# Transforming lists into strings:"
-                        self.keywords = "; ".join(self.keywords)
-                        self.authors = "; ".join(self.authors)
-                        print "calling super"
-                        print self.pmid
-                        try: super(Reference, self).save(*args, **kwargs) # Just save the given information.
-                        except Exception as e:
-                            print e
-                        print "called super"
-                        # Raise Exception and state the the given information yielded more than one reference.
-                else:
-                    super(Reference, self).save(*args, **kwargs)
-            except Reference.DoesNotExist as e:
-                print "Error", e
-                Reference.fetch_data(self)
-                super(Reference, self).save(*args, **kwargs)
-        else:
-            super(Reference, self).save(*args, **kwargs)
-
-    @staticmethod
-    def fetch_data(self):
-        """Queries Entrez EUtils to retrieve information on a reference."""
-        if self.pmid:
-            try:
-                handle = Entrez.esummary(db="pubmed", id=self.pmid)
-                r = Entrez.read(handle)
-                # print r
-                r = r[0] #  reference.
-                self.title = unicode(r['Title'])
-                self.volume = r.get('Volume', None) or None
-                self.issue = r.get('Issue', None) or None
-                self.pages = r['Pages']
-                self.authors = unicode('; '.join(r['AuthorList']))
-                self.journal = r['FullJournalName']
-                self.alternate_journal = r['Source']
-                self.year = int(r['PubDate'].split(' ')[0])
-                self.language = r['LangList'][0]
-                self.doi = r.get('DOI', None)
-
-                handle = Entrez.efetch(db="pubmed", id=self.pmid, rettype="medline", retmode="text")
-                records = Medline.parse(handle)
-                for record in records: pass
-                self.abstract = record.get('AB', None)
-                s = record['EDAT']
-                #print "; ".join(record.get('MH', ''))
-                self.keywords = "; ".join(record.get('MH', '')) or None # MeSH terms
-            except Exception as e:
-                print "Failed fetching information"
-                print e, self
-            if not self.title:
-                from denigma.library import Bibliography
-                bib = Bibliography()
-                r = bib.efetch(id=self.pmid)
-                #print("datasets.Reference.fetch_data")
-                self.__dict__.update(r.__dict__)
-
-                # Transforming lists into strings:
-                self.keywords = "; ".join(self.keywords)
-                self.authors = "; ".join(self.authors)
-
-            self.date = normalize_time(s)
-
-    @property
-    def info(self):
-        r = self
-        return "Title: %s\n Volume: %s\n Issue: %s\n Pages: %s\n Authors: %s\n Journal: %s\n Alternate_journal: %s\n Year: %s\n Language: %s\n DOI: %s\n Abstract: %s\n Date: %s\n Keywords: %s\n" \
-               % (r.title, r.volume, r.issue, r.pages, r.authors,r.journal, r.alternate_journal, r.year, r.language, r.doi, r.abstract, r.date, r.keywords)
-
-    @staticmethod
-    def update():
-        """Updates all reference that have a pmid with information from Entrez."""
-        references = Reference.objects.all()
-        for reference in references:
-            Reference.fetch_data(reference)
-            try:
-                reference.save()
-            except Exception as e:
-                print e
-                #print reference.info, type(reference.volume), type(reference.issue), type(reference.pages)
-
-    @staticmethod
-    def duplicates():
-        """Returns all duplicate entries.
-        For now it checks only pmids."""
-        references = Reference.objects.all()
-        pmids = {}
-        duplicates = []
-        for reference in references:
-            if reference.pmid:
-                if reference.pmid in pmids:
-                    duplicates.extend([reference, pmids[reference.pmid]])
-                else:
-                    pmids[reference.pmid] = reference
-        return duplicates
-
-    @staticmethod
-    def remove_dotes():
-        """Removes the ending dots from all reference titles."""
-        references = Reference.objects.all()
-        for reference in references:
-            if reference.title.endswith('.'):
-                reference.title = reference.title[:-1]
-                reference.save()
-
-    @staticmethod
-    def add_dots():
-        """Appends dot to the title if not present."""
-        references = Reference.objects.all()
-        for reference in references:
-            if not reference.title.endswith('.'):
-                reference.title = reference.title + "."
-                reference.save()
-
-    def __repr__(self):
-        if self.authors and self.title:
-            authors = self.authors.split('; ')
-            representation = self.repr()
-            return "%s %s" % (representation, self.title)
-        elif self.title:
-            return self.title
-        else:
-            return u'{0}'.format(self.pmid)
-
-    def repr(self, full=True):
-        """Implement au field for short author names."""
-        if full:
-            authors = self.authors.split('; ')
-        else:
-            authors = self.au.split('; ')
-        if len(authors) == 1:
-            representation = "%s, %s" % (authors[0], self.year)
-        elif len(authors) == 2:
-            representation = "%s & %s, %s" % (authors[0], authors[1], self.year)
-        else:
-            representation = "%s et al., %s" %(authors[0], self.year)
-        return representation
-
-    def ref(self):
-        if self.volume and self.pages:
-            return "%s (%s) *%s* %s %s: %s." % (self.authors.replace(';', ','), self.year, self.title, self.journal, self.volume, self.pages)
-        else:
-            return "%s (%s) *%s* %s." % (self.authors.replace(';', ','), self.year, self.title, self.journal)
-
-    @property
-    def citations(self):
-        return ref()
-
+t_prefix = "lifespan_" #TODO: figure out what is wrong with django prefixes
 
 
 try:
@@ -334,7 +46,7 @@ class StateManager(models.Manager):
 
 
 # Helper functions:
-def examine(value):
+def examine(value):   #TODO: must be moved to helper class
     """Examines a string value whether it is None, float, or int."""
     if value and value in ['-', 'N.A.']:
         value = None
@@ -365,6 +77,17 @@ def percentage(exp, ctr):
         return (1.*exp/ctr-1)*100
 
 
+
+class Gender(models.Model):
+    name = models.CharField(max_length=13)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = t_prefix+"gender"
+
+
 class Study(models.Model):
     """A lifespan study."""
     pmid = models.IntegerField(blank=True, null=True, unique=True)
@@ -391,7 +114,7 @@ class Study(models.Model):
         verbose_name_plural = "studies"
         db_table = t_prefix+"study"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):   #TODO: must be splitted into several methods
         """Check whether study is already in references and fetches annotation.
         1. Whether reference nor study exist.
         2. reference exist but not study.
@@ -480,7 +203,7 @@ class Experiment(models.Model):
     def get_absolute_url(self):
         return u"lifespan/experiment/%s" % self.pk
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  #TODO: must be splitted into several methods
         if self.pk:
 
             # Create a memory of the intervention mapping to a comparison:
@@ -620,6 +343,9 @@ class Experiment(models.Model):
                 if str(comparison) in memory:
                     comparison.intervention = memory[str(comparison)]
                     comparison.save()
+    class Meta:
+        db_table = t_prefix+"experiment"
+
 
 
 class Strain(models.Model):
@@ -631,6 +357,10 @@ class Strain(models.Model):
 
     def get_absolute_url(self):
         return u"/lifespan/strain/%s" % self.pk
+
+    class Meta:
+        db_table = t_prefix+"strain"
+
 
 
 class Measurement(models.Model):
@@ -659,6 +389,9 @@ class Measurement(models.Model):
 
     def get_absolute_url(self):
         return u"/lifespan/measurement/%s" % self.pk
+
+    class Meta:
+        db_table = t_prefix+"measurement"
 
 
 class Epistasis(models.Model):
@@ -745,7 +478,7 @@ class Comparison(models.Model):
         else:
             return "%s vs. %s" % (exp_gender, ctr_gender)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):   #TODO: must be splitted into several methods
         if not self.pk:
             self.mean = percentage(self.exp.mean, self.ctr.mean) or self.mean
             self.median = percentage(self.exp.median, self.ctr.median) or self.median
@@ -794,12 +527,18 @@ class Comparison(models.Model):
 
         super(Comparison, self).save(*args, **kwargs)
 
+    class Meta:
+        db_table = t_prefix+"comparison"
+
 
 class Type(models.Model):
     name = models.CharField(max_length=25)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        db_table = t_prefix+"type"
 
 
 class Regimen(models.Model):
@@ -814,6 +553,10 @@ class Regimen(models.Model):
         return u"/lifespan/regimen/%s" % self.pk
 
 
+    class Meta:
+        db_table = t_prefix+"regimen"
+
+
 class Assay(models.Model):
     name = models.CharField(max_length=40)
     shortcut = models.CharField(max_length=20)
@@ -823,6 +566,9 @@ class Assay(models.Model):
 
     def get_absolute_url(self):
         return u"/lifespan/assay/%s" % self.pk
+
+    class Meta:
+        db_table = t_prefix+"assay"
 
 
 class Manipulation(models.Model):
@@ -852,7 +598,7 @@ class Manipulation(models.Model):
 ##
 
 
-class Intervention(models.Model):
+class Intervention(models.Model): #TODO: it fetches the data very slow, performance must be optimized
     name = models.CharField(max_length=250)
     taxid = models.IntegerField(blank=True, null=True)
     species = models.ForeignKey('annotations.Species', blank=True, null=True)
@@ -891,7 +637,7 @@ class Intervention(models.Model):
 
 
 
-class Factor(models.Model):  # Rename to Entity AgeFactor
+class Factor(models.Model):  # Rename to Entity AgeFactor  #TODO: to many fields, something must be wrong here
     entrez_gene_id = models.IntegerField("Entrez gene ID", null=True, blank=True)
     #geneid = models.ForeignKey(Gene, blank=True)   # Or Genes
     mapping = models.IntegerField(null=True, blank=True)
@@ -950,7 +696,7 @@ class Factor(models.Model):  # Rename to Entity AgeFactor
         db_table = t_prefix+"factor"
 
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):   #TODO: must be splitted into several methods
         if not self.pk:
             if MAPPING:
                 #print("lifespan.models.Factors.save()")
@@ -991,4 +737,7 @@ class Factor(models.Model):  # Rename to Entity AgeFactor
                             self.species = Species.objects.get(taxid=taxid)
 
         super(Factor, self).save(*args, **kwargs)
+
+
+
 m2m_changed.connect(handlers.changed_references, sender=Intervention.references.through)

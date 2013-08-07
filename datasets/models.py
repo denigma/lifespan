@@ -12,7 +12,7 @@ Entrez.email = "hevok@denigma.de"
 
 
 # Helper function
-def normalize_time(date):
+def normalize_time(date):   #TODO: must be moved to Helper class
     """Normalizes time attributes for storing into DateTimeField."""
     try:
         time = datetime(*strptime(date, "%Y/%m/%d %H:%M")[0:5])
@@ -36,14 +36,14 @@ def normalize_time(date):
                         time = datetime(*strptime(date, "%Y")[0:3])
     return time
 
-def normalize_title(title):
+def normalize_title(title):  #TODO: must be moved to Helper class
     title = title.lower()
     if title.endswith('.'):
         title = title[:-1]
     return title
 
 
-class Reference(models.Model):
+class Reference(models.Model):  #TODO: MUST be REFACTORED!
     pmid = models.IntegerField(blank=True, null=True, unique=True) #) # 
     title = models.CharField(max_length=400, blank=True)
     authors = models.TextField(blank=True)  #models.ManyToManyField(Author) max_length=250, 
@@ -95,7 +95,7 @@ class Reference(models.Model):
     def get_absolute_url(self):
         return reverse('detail-reference', args=[self.pk])
 
-    def save(self, update=False, *args, **kwargs):
+    def save(self, update=False, *args, **kwargs):  #TODO: MUST be splitted into several methods, it is too huge and ugly!
         if not self.pk or update:
             # This code only happens if the objects is not in the database yet.
             # Otherwise it would have pk.
@@ -146,7 +146,7 @@ class Reference(models.Model):
                                for areference in r:
                                    if normalize_title(areference.title) == title:
                                        r = areference
-                       print("datasets.Reference.save()")
+                       print("datasets.Reference.save()")   #TODO: change print statements to django logs
                        self.__dict__.update(r.__dict__)
                        print r
                        print vars(r)
@@ -172,7 +172,7 @@ class Reference(models.Model):
             super(Reference, self).save(*args, **kwargs)
 
     @staticmethod
-    def fetch_data(self):
+    def fetch_data(self):   #TODO: MUST be splitted into several methods, it is too huge and ugly!
         """Queries Entrez EUtils to retrieve information on a reference."""
         if self.pmid:
           try:

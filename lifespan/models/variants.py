@@ -177,10 +177,5 @@ class Variant(models.Model):
         return reverse('variant', args=[self.pk])
 
 
-class Gender(models.Model):
-    name = models.CharField(max_length=13)
-
-    def __unicode__(self):
-        return self.name
 
 m2m_changed.connect(handlers.changed_references, sender=Factor.references.through)

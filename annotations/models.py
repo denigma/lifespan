@@ -76,7 +76,7 @@ class SecondMessanger(models.Model):
 
 # Species annotations:
 
-class Taxonomy(models.Model):
+class Taxonomy(models.Model):      #TODO: too many fields, something is wrong with this model
     """Defines groups of biological organisms."""
     superkingdom = models.CharField(max_length=54, blank=True)
     tribe = models.CharField(max_length=87, blank=True)
