@@ -21,7 +21,8 @@ def index(request):
     #template = loader.get_template('grid.html')
     modelClass = get_model("grids", model)
     models = modelClass.objects.all()
-    fields = models[0].keys()
+    #fields = models[0].keys()
+    fields = modelClass.keys()
     context = Context({
         "model": model,
         "fields": fields,

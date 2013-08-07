@@ -10,12 +10,30 @@ class Member(models.Model):
     age = models.IntegerField()
     salary = models.FloatField()
 
+    # # This functions maybe redundant.
+    # # I added them as I did not know how to get all model fields and values as dictionaries
+    @classmethod
+    def keys(cls): return [field.name for field in cls._meta.fields]
 
-    # This functions maybe redundant.
-    # I added them as I did not know how to get all model fields and values as dictionaries
-    def keys(self): return [field.name for field in self._meta.fields]
+    @classmethod
+    def values(cls): return [getattr(cls, field.name) for field in cls._meta.fields]
 
-    def values(self): return [getattr(self, field.name) for field in self._meta.fields]
+    @classmethod
+    def items(cls): return {field.name:getattr(cls, field.name) for field in cls._meta.fields}
 
-    def items(self): return {field.name:getattr(self, field.name) for field in self._meta.fields}
 
+class Organization(models.Model):
+    """Testing model to test grids"""
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+    # # This functions maybe redundant.
+    # # I added them as I did not know how to get all model fields and values as dictionaries
+    @classmethod
+    def keys(cls): return [field.name for field in cls._meta.fields]
+
+    @classmethod
+    def values(cls): return [getattr(cls, field.name) for field in cls._meta.fields]
+
+    @classmethod
+    def items(cls): return {field.name:getattr(cls, field.name) for field in cls._meta.fields}

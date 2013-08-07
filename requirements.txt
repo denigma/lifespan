@@ -1,21 +1,26 @@
---extra-index-url=http://dist.pinaxproject.com/dev/
---extra-index-url=http://dist.pinaxproject.com/alpha/
 django==1.5.1
 south==0.8.1
 
 git+https://github.com/tomchristie/django-rest-framework.git#egg=rest_framework #for REST services
 git+https://github.com/marcgibbons/django-rest-swagger#egg=rest_framework_swagger #for REST services documentation
+-e git+https://github.com/nigma/django-easy-pjax.git#egg=easy_pjax
 
 -e git://github.com/denigma/utils.git@#egg=utils
 
-pinax-theme-bootstrap==3.0a2
-pinax-theme-bootstrap-account==1.0b2
 django-user-accounts==1.0b8
 django-forms-bootstrap==2.0.3.post1
 metron==1.1
-pinax-utils==1.0b1.dev3
+#pinax-utils==1.0b1.dev3
 eventlog==0.6
 django-jsonfield==0.8.12
 django-less==0.7.1
+
+numpy==1.7.1
+biopython==1.61
+mysql-python==1.2.4
+
 -e git+https://github.com/denigma/django-coffeescript.git#egg=coffescript
 -e git+https://github.com/alex/django-filter.git#egg=django_filters
+-e git+https://github.com/rossp/django-menu#egg=menu
+-e git+https://github.com/django-mptt/django-mptt#egg=mptt
+-e git+https://github.com/etianen/django-reversion#egg=reversion

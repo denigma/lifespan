@@ -1,0 +1,57 @@
+{% load staticfiles %}
+
+{% load coffeescript%}
+
+{% load less %}
+
+
+<html>
+<head>
+
+    {% block included %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'denigma.less' %}"/>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'grids.less' %}"/>
+
+
+    <link rel="stylesheet" href="{% static 'lib/scrollbar/jquery.mCustomScrollbar.css' %}"  />
+
+    <script src="{% static 'lib/jquery-2.0.2.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/d3.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/batman.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/batman.jquery.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'lib/jquery-ui.js' %}" type="text/javascript"></script>
+
+
+    <!-- look down and you will understand why I am interested in concatenations =)) -->
+
+    <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/django_storage.coffee" %}"> </script>
+
+
+
+    <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/denigma.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "models/member.coffee" %}"> </script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "controllers/member_controller.coffee" %}"> </script>
+
+
+    <script src="{% static 'lib/scrollbar/jquery.mCustomScrollbar.js' %}"></script>
+    {% endblock %}
+
+</head>
+<body id="test">
+{% block sidebar %}
+    here the sidebar will be!
+{% endblock %}
+{% block content %}
+    <hr>here the content will be!
+{% endblock %}
+
+
+</body>
+</html>

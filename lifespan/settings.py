@@ -5,6 +5,7 @@ import os
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'lal^$i3gh=qv&ge9-8ai1kld_32=c4e7%#a_i2s_w(b_fbh6^('
@@ -16,11 +17,33 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+}
+
+
+if os.path.exists(os.path.join(PROJECT_ROOT, 'local_settings.py')):
+    BACKEND = 'mysql'
+else:
+    BACKEND = 'sqlite3'
+
+# local_settings.py can be used to override environment-specific settings
+# like database and email that differ between development and production.
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/" #'http://localhost/static/'
 
 folders = ["static","coffee","styles","resources","media","libs"]
 apps = ["lifespan","tables","chats","grids"]
+
 
 
 # Application definition
@@ -32,12 +55,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'reversion',
     'rest_framework',
     'rest_framework_swagger',
     'south',
     'coffeescript',
     'less',
-    'django_filters'] + apps
+    # Theme
+    'pinax_theme_bootstrap_account',
+    'pinax_theme_bootstrap',
+    'django_forms_bootstrap',
+
+    'django_filters',
+    'easy_pjax',
+    'menu','media','annotations'] + apps
 
 
 MIDDLEWARE_CLASSES = (
@@ -104,12 +135,6 @@ WSGI_APPLICATION = 'lifespan.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
