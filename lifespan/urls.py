@@ -1,8 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-admin.autodiscover()
+from lifespan.admin import *
 import rest_framework_swagger
-
+from grids.views import GridView,CoffeeModelView
+from django.views.generic import TemplateView
 
 ## REST Framework
 from rest_framework import routers
@@ -40,12 +41,16 @@ router.register(r'populations', PopulationViewSet)
 router.register(r'variants', VariantViewSet)
 router.register(r'genders', GenderViewSet)
 
+admin.autodiscover()
 
 
 urlpatterns = patterns('',
     #(r'^$', RedirectView.as_view(url='/grids/')), #redirect to the most used app
     #url(r'^Member/(.+)$', 'grids.views.test', name='index'),
-    url(r'^$', include(router.urls), name='index'),
+    #url(r'^$', 'lifespan.views.interventions', name='index'),
+
+    url(r'^$', GridView.as_view(template_name="grid.html",model_name="Member")),
+
 
     url(r'models/', include(router.urls)),
 
@@ -59,6 +64,7 @@ urlpatterns = patterns('',
 
     url(r'^api-docs/', include('rest_framework_swagger.urls')),
 
-    url(r'^lifespan/', 'lifespan.views.index', name='index'),
+    url(r'^lifespan/', TemplateView.as_view(template_name='interventions.html')),
 
+    url(r'^$', GridView.as_view(template_name="grid.html",model_name="Member")),
     )

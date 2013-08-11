@@ -12,22 +12,60 @@ from django.http import Http404
 from django.http import QueryDict
 from django.template import RequestContext, loader
 
-from grids.models import Member
+from django.views.generic import TemplateView
 
 
-def index(request):
-    """Renders grid template,"""
-    model = "Member".lower()
-    #template = loader.get_template('grid.html')
-    modelClass = get_model("grids", model)
-    models = modelClass.objects.all()
-    #fields = models[0].keys()
-    fields = modelClass.keys()
-    context = Context({
-        "model": model,
-        "fields": fields,
-        })
-    return render(request, 'grid.html',context)
+class CoffeeModelView(TemplateView):
+
+
+    model_name = "no_model"
+    template_name = "model.coffee.html"
+    #template_name = "grid.html"
+
+    def get_context_data(self, **kwargs):
+
+        model = self.model_name.title()
+        key = model
+        modelClass = get_model("grids",model)
+        # if not modelClass:
+        #     raise Http404
+        models = modelClass.objects.all()
+        fields = models[0].keys()
+        context = kwargs
+        if 'view' not in context:
+            context['view'] = self
+        context["model"] = model
+        context["fields"] = fields
+        context["title"] = model,
+        context["storage"] ="Batman.RestStorage",
+        context["fields"] = fields,
+        context["storage_key"] = key
+        return context
+
+
+class GridView(TemplateView):
+
+    model_name = "no_model"
+    template_name = "model.coffee.html"
+    #template_name = "grid.html"
+
+    def get_context_data(self, **kwargs):
+
+        model = self.model_name.lower()
+        #template = loader.get_template('grid.html')
+        modelClass = get_model("grids", model)
+        if not modelClass:
+            raise Http404
+        models = modelClass.objects.all()
+        fields = models[0].keys()
+
+        context = kwargs
+        if 'view' not in context:
+            context['view'] = self
+        context["model"] = model
+        context["fields"] = fields
+        return context
+
 
 def writeCoffee(request,model):
     """Writes model template to the coffee file."""

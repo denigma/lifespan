@@ -1,4 +1,15 @@
-<ul>{% load menubuilder %}{% menu headernavigation %}
-    {% for item in menuitems %}<li><a href="{{ item.url }}" title="{{ item.title|escape }}"{% if item.current %} class='current'{% endif %}>{{ item.title }}</a></li>
-    {% endfor %}
-</ul>
+{% load staticfiles %}
+{% load coffeescript%}
+{% load less %}
+
+
+
+v: {{ V }}
+       <hr>
+e: {{ E }}
+<hr>
+there menu should be!
+{#<ul>{% menu headernavigation %}#}
+{#    {% for item in menuitems %}<li><a href="{{ item.url }}" title="{{ item.title|escape }}"{% if item.current %} class='current'{% endif %}>{{ item.title }}</a></li>#}
+{#    {% endfor %}#}
+{#</ul>#}

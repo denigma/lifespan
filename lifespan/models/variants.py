@@ -176,6 +176,9 @@ class Variant(models.Model):
     def get_absolute_url(self):
         return reverse('variant', args=[self.pk])
 
+    class Meta:
+        db_table = t_prefix+"variant"
+
 
 
 m2m_changed.connect(handlers.changed_references, sender=Factor.references.through)

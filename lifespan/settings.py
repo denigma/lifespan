@@ -42,6 +42,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/" #'http://localhost/static/'
 
 folders = ["static","coffee","styles","resources","media","libs"]
+de_apps = ['media','annotations']
 apps = ["lifespan","tables","chats","grids"]
 
 
@@ -61,14 +62,10 @@ INSTALLED_APPS = [
     'south',
     'coffeescript',
     'less',
-    # Theme
-    'pinax_theme_bootstrap_account',
-    'pinax_theme_bootstrap',
-    'django_forms_bootstrap',
-
     'django_filters',
     'easy_pjax',
-    'menu','media','annotations'] + apps
+    'bulbs',
+    ] + de_apps + apps
 
 
 MIDDLEWARE_CLASSES = (
@@ -150,14 +147,3 @@ USE_L10N = True
 USE_TZ = True
 
 TEMPLATE_DIRS = [a + "/templates" for a in apps]
-#     (
-#     'templates',
-#     'lifespan/templates',
-#     'grids/templates',
-#     'chats/templates',
-#     'tables/templates',
-#
-#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-#     # Always use forward slashes, even on Windows.
-#     # Don't forget to use absolute paths, not relative paths.
-# )

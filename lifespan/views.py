@@ -6,7 +6,7 @@ import os
 from django.db.models.loading import get_model
 from django.http import Http404
 from models.variants import *
-from django.template import RequestContext, loader
+from django.template import RequestContext, loader,Context
 from models.interventions import Intervention
 
 def interventions(request): return render(request, 'interventions.html')
@@ -33,46 +33,23 @@ def interventions(request): return render(request, 'interventions.html')
 #     references = models.ManyToManyField('datasets.Reference', blank=True)
 #     lifespans = models.CharField(max_length=25, blank=True)
 
+from bulbs.rexster import Graph
+from bulbs.rexster import Config
+from bulbs.model import *
 
-def index(request):
-    ivs = [
-        {
-            "name":i.name,
-            "species":i.species.common_name,
-            "manipulation":i.manipulation,
-            "maximum":i.maximum,}
-        for  i in Intervention.objects.all()
-        if i.species!=None
-    ]
-
-    context = RequestContext(request,{
-        "interventions": ivs,
-    })
-    return render(request, 'test.html',context)
-
-
-
-def writeModel(request, app, model):
-    model = model.title()
-    filename = model+".coffee"
-    path = os.path.abspath(app+"/coffee/models/" + filename.lower())
-    template_name = "model.coffee.html"
-    template = loader.get_template(template_name)
-    key = model
-    modelClass = get_model("lifespan",model)
-    if not modelClass:
-        raise Http404
-    models = modelClass.objects.all()
-    fields = models[0].keys()
-    context = Context({
-        "name": model,
-        "app": app,
-        "storage":"Batman.RestStorage",
-        "fields": fields,
-        "storage_key":key
-    })
-    open(path, "w").write(render_to_string(template_name, context))
-    return HttpResponse(template.render(context), mimetype="application/json")
-    #return  render(request,"model.coffee.html",context)
-
-
+#
+# def index(request):
+#     context = Context({
+#         })
+#     conf = Config("http://localhost:8182/graphs/denigma", username="antonkulaga", password="mind2mind")
+#     g = Graph(conf)
+#     # james = g.vertices.create(name="James")
+#     # julie = g.vertices.create(name="Julie")
+#     # g.edges.create(james, "knows", julie)
+#     den = g.vertices.get("#9:0")
+#     e = den.outE
+#     context = Context({
+#         "V": den,#g.V, #g.vertices.index.lookup(name="James"),
+#         "E": e
+#         })
+#     return render(request, 'index.html',context)
