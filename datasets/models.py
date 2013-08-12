@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from Bio import Entrez, Medline
-from lifespan.models.interventions import *
+#from lifespan.models import *
 
 Entrez.email = "hevok@denigma.de"
 
@@ -87,7 +87,8 @@ class Reference(models.Model):  #TODO: MUST be REFACTORED!
     language = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=75, blank=True, null=True)
 
-    categories = models.ManyToManyField('data.Entry', blank=True, null=True, related_name='references')
+    #TODO: return categories if I figure out what to do with data app that itself has a lot of dependencies
+    # categories = models.ManyToManyField('data.Entry', blank=True, null=True, related_name='references')
 
     def __unicode__(self):
         return u"{0} {1}".format(self.pmid, self.title)

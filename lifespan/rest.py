@@ -1,8 +1,7 @@
 from rest_framework import viewsets
 
 from serializers import FactorSerializer
-from models.interventions import *
-from models.variants import *
+from models import *
 
 
 

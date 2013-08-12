@@ -1,3 +1,5 @@
+from models import *
+
 from django.http import HttpResponse
 from django.template import Context, loader
 from django.shortcuts import render
@@ -5,15 +7,10 @@ from django.template.loader import render_to_string
 import os
 from django.db.models.loading import get_model
 from django.http import Http404
-from models.variants import *
 from django.template import RequestContext, loader,Context
-from models.interventions import Intervention
 
-def interventions(request): return render(request, 'interventions.html')
 
-#def index(request): return render(request, 'index.html')
-# def index(request): return render(request, 'interventions.html')
-#
+
 # class Intervention(models.Model):
 #     name = models.CharField(max_length=250)
 #     taxid = models.IntegerField(blank=True, null=True)

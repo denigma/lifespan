@@ -3,12 +3,13 @@
 {% load less %}
 
 
+Here is prototype app where we do various experiments
 
-v: {{ V }}
-       <hr>
-e: {{ E }}
+<a href="/prototype/page/1">First page</a>.| <a href="/prototype/page/2">Second page</a>.| <a href="/prototype/page/3">Third page</a>.|
+
 <hr>
-there menu should be!
+
+
 {#<ul>{% menu headernavigation %}#}
 {#    {% for item in menuitems %}<li><a href="{{ item.url }}" title="{{ item.title|escape }}"{% if item.current %} class='current'{% endif %}>{{ item.title }}</a></li>#}
 {#    {% endfor %}#}

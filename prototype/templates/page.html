@@ -1,0 +1,5 @@
+{% extends  "base.html,pjax_base.html"|pjax:request %}
+{% block title %}Page # {{ num }}{% endblock %}
+{% block content_base %}
+    {% block content %}<h1>Page # {{ num }}</h1>{% endblock %}
+{% endblock %}

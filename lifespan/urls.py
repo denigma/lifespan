@@ -49,6 +49,10 @@ urlpatterns = patterns('',
     #url(r'^Member/(.+)$', 'grids.views.test', name='index'),
     #url(r'^$', 'lifespan.views.interventions', name='index'),
 
+
+    url(r'^$', TemplateView.as_view(template_name="interventions.html")),
+
+
     url(r'^$', GridView.as_view(template_name="grid.html",model_name="Member")),
 
 
@@ -57,6 +61,9 @@ urlpatterns = patterns('',
     url(r'^grids/', include('grids.urls', namespace="grids")),
     url(r'^tables/' , include('tables.urls', namespace="tables")),
     url(r'^chat/', include('chats.urls', namespace="chats")),
+
+    url(r'^prototype/', include('prototype.urls', namespace="grids")),
+
 
     url(r'^admin/', include(admin.site.urls)),
 

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+#TODO: SPLIT INTO TWO APPS
+
+
 import re
 
 from django.db import models, IntegrityError
@@ -9,14 +12,37 @@ from django.db.models.signals import m2m_changed
 from django.core.urlresolvers import reverse
 from time import strptime
 from datetime import datetime
-import handlers
 
 from datasets.models import Reference
+import datasets
 from Bio import Entrez, Medline
-
 
 Entrez.email = "hevok@denigma.de"
 t_prefix = "lifespan_" #TODO: figure out what is wrong with django prefixes
+
+
+
+"""Handles the changes of the references in the Intervention effect and factor observation fields."""
+import re
+
+
+
+def changed_references(sender, instance, action, reverse, model, pk_set, **kwargs):
+    #print("changed referenes: %s" % action)
+    if action == "post_clear":
+        rc = re.compile(r'\W(?P<id>\d{7,})\W')
+        if hasattr(instance, 'effect'): # isinstance(instance, Intervention):
+            references = re.findall(rc, instance.effect)
+        else: # if isinstance(instance, Factor):
+            references = re.findall(rc, instance.observation)
+        for reference in references:
+            reference, created = Reference.objects.get_or_create(pmid=reference)
+            #print(reference)
+            instance.references.add(reference)
+            #print("lifespan.models.Intervention.save(): %s" % instance.references.all())
+
+#LIFESPAN STARTS
+
 
 
 try:
@@ -27,7 +53,6 @@ try:
 except:
     MAPPING = False
 
-import handlers
 
 
 WT = ['wt', 'WT' 'wild type']
@@ -93,7 +118,7 @@ class Study(models.Model):
     pmid = models.IntegerField(blank=True, null=True, unique=True)
     title = models.CharField(max_length=255, blank=True, null=True, unique=True)
     link = models.URLField(blank=True, null=True)
-    reference = models.ForeignKey(Reference, blank=True, null=True)
+    reference = models.ForeignKey("datasets.Reference", blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     integrated = models.BooleanField()
     created = models.DateTimeField(auto_now_add=True)
@@ -236,7 +261,7 @@ class Experiment(models.Model):
         for index, term in enumerate(header):
             if term in Experiment.mapping:
                 header[index] = Experiment.mapping[term]
-            #print(header)
+                #print(header)
 
         for line in data[1:]:
             #print(line)
@@ -740,4 +765,178 @@ class Factor(models.Model):  # Rename to Entity AgeFactor  #TODO: to many fields
 
 
 
-m2m_changed.connect(handlers.changed_references, sender=Intervention.references.through)
+m2m_changed.connect(changed_references, sender=Intervention.references.through)
+
+#VARIANTS START
+
+from mptt.models import MPTTModel, TreeForeignKey
+
+t_prefix = "lifespan_"
+
+class VariantManager(models.Manager):
+    def get_queryset(self):
+        return self.model.objects.exclude(choice__name__contains='Review')
+
+
+class StateManager(models.Manager):
+    def get_queryset(self):
+        print("get queryset")
+        return self.model.objects.exclude(variant__choice__name__contains='Review')
+
+
+class State(models.Model):
+    name = models.CharField(max_length=250)
+
+    objects = StateManager()
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('state', args=[self.pk])
+
+    class Meta():
+        db_table = t_prefix+"state"
+
+
+
+class Technology(models.Model): # PCR, array
+    name = models.CharField(max_length=250)
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('technology', args=[self.pk])
+
+    class Meta:
+        verbose_name_plural = 'Technologies'
+        db_table = t_prefix+"technology"
+
+
+class StudyType(models.Model): # GWAS, Candidate genes
+    name = models.CharField(max_length=250)
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('study_type', args=[self.pk])
+
+    class Meta():
+        db_table = t_prefix+"studytype"
+
+
+class Population(MPTTModel):
+    name = models.CharField(max_length=250)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('population', args=[self.pk])
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
+    class Meta():
+        db_table = t_prefix+"population"
+
+
+# class Association(models.Model):
+#     def __unicode__(self):
+#         return self.polymorphism
+
+
+class VariantType(models.Model):
+    name = models.CharField(max_length=250)
+
+    class Meta:
+        verbose_name = 'Variant Type'
+        verbose_name_plural = 'Variant Types'
+        db_table = t_prefix+"varianttype"
+
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('variant_type', args=[self.pk])
+
+
+
+class ORType(models.Model):
+    name = models.CharField(max_length=250)
+
+    class Meta:
+        verbose_name = 'Odds ratio Type'
+        verbose_name_plural = 'Odds ratio Types'
+        db_table = t_prefix+"ortype"
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('or_type', args=[self.pk])
+
+
+
+
+class Variant(models.Model):
+
+    CHOICES = (
+        (1, _('Positive')),
+        (2, _('Negative')),
+        #    (3, _('Multiplicative'))
+    )
+
+    finding = models.PositiveSmallIntegerField(max_length=1, blank=True, null=True, choices=CHOICES,
+                                               help_text="Whether finding was positive or negative.")
+    #polymorphism = models.CharField(max_length=20)# genetic variant
+    created = models.DateTimeField(_('created'), auto_now_add=True, db_index=True)
+    updated = models.DateTimeField(_('updated'), auto_now=True)
+    location  = models.CharField(max_length=10, null=True, blank=True)# genomic location
+    factor = models.ForeignKey(Factor, null=True, blank=True, related_name='variants')
+    shorter_lived_allele = models.CharField(max_length=255, blank=True, null=True)
+    longer_lived_allele = models.CharField(max_length=255, blank=True, null=True)
+    variant_type = models.ForeignKey('VariantType', blank=True, null=True)
+    or_type = models.ForeignKey('ORType', help_text='Odds Ratio Type', blank=True, null=True)
+
+
+    polymorphism = models.CharField(max_length=255)# genetic variant
+    alias = models.CharField(max_length=255, blank=True, null=True,
+                             help_text='Individual alias names should be seperated by semicolon ";"')
+    #variants = models.ManyToManyField(Variant)
+    factors = models.ManyToManyField(Factor, null=True, blank=True, related_name='variances')
+    description = models.TextField(null=True, blank=True)
+    odds_ratio = models.FloatField(null=True, blank=True)
+    pvalue = models.FloatField(null=True, blank=True, help_text="Numerical value of the p-value")
+    p_value = models.CharField(max_length=255, null=True, blank=True, help_text="String representation of the p-value, e.g. > 0.05 (females)")# genetic variant
+    qvalue = models.FloatField(null=True, blank=True)
+    significant = models.CharField(max_length=255, null=True, blank=True)  # (redudant)
+    initial_number = models.CharField(max_length=250, null=True, blank=True) # _of_cases_controls (study)
+    replication_number = models.CharField(max_length=250, null=True, blank=True) #     _of_cases_controls (study)
+    ethnicity = models.ManyToManyField(Population)# German
+    age_of_cases = models.CharField(max_length=250, null=True, blank=True)
+    study_type = models.ForeignKey(StudyType, null=True, blank=True)    # GWAS, Candidate genes
+    technology = models.ForeignKey(Technology, null=True, blank=True)     # PCR, array
+    pmid = models.IntegerField(blank=True, null=True)
+    reference = models.ForeignKey('datasets.Reference')
+    choice = models.ForeignKey(State, default=1, null=True, blank=True) #[Curate/Review/Discard]
+    classifications = models.ManyToManyField('annotations.Classification', blank=True, null=True, default=None)
+
+    objects = VariantManager()
+
+    def __unicode__(self):
+        return self.polymorphism
+
+    def get_absolute_url(self):
+        return reverse('variant', args=[self.pk])
+
+    class Meta:
+        db_table = t_prefix+"variant"
+
+
+
+m2m_changed.connect(changed_references, sender=Factor.references.through)

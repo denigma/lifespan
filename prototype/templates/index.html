@@ -1,0 +1,21 @@
+{% extends "base.html"|pjax:request %}
+
+
+{% load staticfiles %}
+
+{% load coffeescript%}
+
+{% load less %}
+
+
+{% block sidebar %}
+    <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "test.coffee" %}"> </script>
+    {% include "menu.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container" id="pjax-container">
+Some info inside me
+</div>
+{% endblock %}
+

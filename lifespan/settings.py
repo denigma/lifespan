@@ -42,8 +42,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/" #'http://localhost/static/'
 
 folders = ["static","coffee","styles","resources","media","libs"]
-de_apps = ['media','annotations']
-apps = ["lifespan","tables","chats","grids"]
+de_apps = ['datasets','media','annotations']
+apps = ["lifespan","tables","chats","grids","prototype"]
 
 
 

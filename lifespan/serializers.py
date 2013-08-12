@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models.interventions import Factor
+from models import Factor
 
 
 class FactorSerializer(serializers.HyperlinkedModelSerializer):

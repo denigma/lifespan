@@ -5,9 +5,9 @@ import reversion
 
 from mptt.admin import MPTTModelAdmin
 
-from models.interventions import Study, Experiment, Measurement, Comparison, Epistasis, Strain
-from models.interventions import Type, Factor, Manipulation, Intervention, Regimen, Assay, Gender
-from models.variants import Variant, StudyType, Population, State, Technology, VariantType, ORType
+from models import Study, Experiment, Measurement, Comparison, Epistasis, Strain, \
+    Type, Factor, Manipulation, Intervention, Regimen, Assay, Gender,\
+    Variant, StudyType, Population, State, Technology, VariantType, ORType
 
 
 class StudyAdmin(reversion.VersionAdmin):
