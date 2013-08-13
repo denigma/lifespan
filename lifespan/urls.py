@@ -26,7 +26,7 @@ router.register(r'strains', StrainViewSet)
 router.register(r'measurements', MeasurementViewSet)
 router.register(r'epistases', EpistasisViewSet)
 router.register(r'manipulations', ManipulationViewSet)
-router.register(r'regimens', InterventionViewSet)
+router.register(r'regimens', RegimenViewSet)
 router.register(r'assays', AssayViewSet)
 
 router.register(r'interventions', InterventionViewSet)

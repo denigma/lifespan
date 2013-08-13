@@ -5,6 +5,18 @@ class Denigma.MemberController extends Batman.Controller
   #fiels that are used in filtering
   fields: ["id","name","surname","organization","age","salary"]
 
+  model_name: "Member"
+  page_size: 20
+  scroll_threshold: 70 #when to load new portion of records
+
+  with_pagination: (str)=>
+    switch str
+      when str==null then "?page_size=#{@page}"
+      when str.contains? !str.contains("page_size") && str.contains("?") then str+"&page_size=#{@page}"
+      else str
+
+  model: => Denigma.get(@model_name)
+
   constructor: ->
     super
     @set "_items",undefined
@@ -28,17 +40,34 @@ class Denigma.MemberController extends Batman.Controller
     ###
       adds custom mscrolling to the grid
     ###
+    callback = (e)=>
+      if e.topPct>@scroll_threshold
+        model = @model()
+        if(model.page?)
+          p = model.page
+          unless p.loading==true
+            if p.next?
+              options = @with_pagination(p.next.substring(p.next.indexOf("?")+1)+"")
+              fun = (err, records, env)->#console.log(records)
+              model.load(options,fun)
+              #model.load()
+              p.loading = true
+        else
+          console.log("no scroll")
+
+
     params =
       theme:"dark-thick"
       advanced:
         updateOnContentResize: true
         autoScrollOnFocus: true
-        updateOnContentResize: true
         updateOnBrowserResize:true
         autoHideScrollbar:true
-      scrollButtons:{
+        contentTouchScroll:true
+      scrollButtons:
         enable: true
-      }
+      callbacks:
+        whileScrolling: callback
 
     verParams = params
     $("section.tbody").mCustomScrollbar(verParams)

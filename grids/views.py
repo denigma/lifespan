@@ -11,6 +11,7 @@ from django.db.models.loading import get_model
 from django.http import Http404
 from django.http import QueryDict
 from django.template import RequestContext, loader
+from grids.models import Member
 
 from django.views.generic import TemplateView
 
@@ -27,8 +28,8 @@ class CoffeeModelView(TemplateView):
         model = self.model_name.title()
         key = model
         modelClass = get_model("grids",model)
-        # if not modelClass:
-        #     raise Http404
+        if not modelClass:
+            raise Http404
         models = modelClass.objects.all()
         fields = models[0].keys()
         context = kwargs
