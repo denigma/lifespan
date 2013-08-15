@@ -1,0 +1,89 @@
+{% load staticfiles %}
+
+{% load coffeescript%}
+
+{% load less %}
+
+
+<html>
+<head>
+    {% block head %}
+
+
+        {% block styles %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'denigma.less' %}"/>
+
+            <link rel="stylesheet" href="{{ STATIC_URL }}{% less 'grids.less' %}"/>
+
+        {% endblock styles %}
+
+
+        {% block libs %}
+            <script src="{% static 'lib/jquery-2.0.2.js' %}" type="text/javascript"></script>
+
+            <script src="{% static 'lib/d3.js' %}" type="text/javascript"></script>
+
+            <script src="{% static 'lib/batman.js' %}" type="text/javascript"></script>
+
+            <script src="{% static 'lib/batman.jquery.js' %}" type="text/javascript"></script>
+
+            <script src="{% static 'lib/jquery-ui.js' %}" type="text/javascript"></script>
+
+            <script src="{% static 'lib/jquery.pjax.js' %}" type="text/javascript"></script>
+
+            <link rel="stylesheet" href="{% static 'lib/scrollbar/jquery.mCustomScrollbar.css' %}"  />
+
+            <script src="{% static 'lib/scrollbar/jquery.mCustomScrollbar.js' %}"></script>
+
+            <link rel="stylesheet" href="{% static 'lib/highlight.js/styles/github.css' %}">
+            <script src="{% static 'lib/highlight.js/highlight.pack.js' %}" type="text/javascript"></script>
+            <script>hljs.initHighlightingOnLoad();</script>
+
+
+        {% endblock libs %}
+
+
+        {% block coffee %}
+            <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "scripts/pjax_init.coffee" %}"> </script>
+
+            <!-- look down and you will understand why I am interested in concatenations =)) -->
+
+            <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/django_storage.coffee" %}"> </script>
+
+            <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "core/denigma.coffee" %}"> </script>
+
+
+        {% endblock coffee %}
+
+
+
+        <title>
+            {% block head_title_base %}
+                {% block head_title %}
+                    {% block title %}
+                         Denigma
+                    {% endblock %}
+                {% endblock %}
+            {% endblock %}
+        </title>
+
+    {% endblock head %}
+
+</head>
+<body>
+{% block body %}
+    {% block menu %}
+        here the menu will be!
+    {% endblock %}
+
+    {% block content_base %}
+        {% block content %}
+            <hr>here the content will be!
+        {% endblock %}
+    {% endblock %}
+
+{% endblock body %}
+
+
+</body>
+</html>

@@ -1,13 +1,15 @@
+
 class Denigma.MemberController extends Batman.Controller
   ###
     This controller contains basic grid events
   ###
   #fiels that are used in filtering
-  fields: ["id","name","surname","organization","age","salary"]
+  fields: ['id','name','surname','organization','age','salary']
+
 
   model_name: "Member"
-  page_size: 20
-  scroll_threshold: 70 #when to load new portion of records
+  page_size: 15
+  scroll_threshold: 80 #when to load new portion of records
 
   with_pagination: (str)=>
     switch str
@@ -74,7 +76,7 @@ class Denigma.MemberController extends Batman.Controller
 
     horParams = params
     horParams.horizontalScroll = true
-    #$("#chatboard").mCustomScrollbar(horParams)
+  #$("#chatboard").mCustomScrollbar(horParams)
 
   index: ->
     #alert "Hello!"
@@ -136,6 +138,7 @@ class Denigma.MemberController extends Batman.Controller
     model = context.get("member")
     node  = $(context.get("node"))
     @validate(model,node)
+
     model.save()
 
   remove: (node, event, context) ->
@@ -175,8 +178,7 @@ class Denigma.MemberController extends Batman.Controller
       unless @fields? then return false
       for f in @fields
         v = @get(f)
-        unless (v=="" or v==undefined)
-          return true
+        unless (v=="" or v==undefined) then return true
       false
 
   #accessor that gets values from filterinputs and generate options for Model.load()
@@ -200,5 +202,5 @@ class Denigma.MemberController extends Batman.Controller
       vals = @get "_items"
       if vals==undefined then Denigma.get('Member.all') else vals
 
-#activates method of the contoller
-Denigma.root("member#index")
+  #activates method of the contoller
+  Denigma.root("member#index")

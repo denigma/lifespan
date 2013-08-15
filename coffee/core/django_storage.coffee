@@ -46,11 +46,20 @@ class Batman.DjangoStorage extends Batman.RestStorage
       loaded: ->
         env.response = env.request.get('response')
         next()
-    if options.data? and options.method == "PUT"
-      #Dirty fix but, saving now works!
-      for key,value of options.data
-        options.data = value
-        break
+    if options.data?
+      if options.method == "PUT"
+        #Dirty fix but, saving now works!
+        for key,value of options.data
+          options.data = value
+          break
+    #      if options.method == "GET" && options.data?
+    #        #Another dirty fix but, for associations
+    #        for key,value of options.data
+    #          if key.indexOf("_id")>-1
+    #            options.data[key] = undefined
+    #            options.data[key.replace("_id","")] = value
+
+    console.log(options)
     env.request = new Batman.Request(options)
     #console.log JSON.stringify(options)
     env.request.send()

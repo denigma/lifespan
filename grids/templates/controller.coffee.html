@@ -1,9 +1,23 @@
+{% autoescape off %}
 class Denigma.{{ title }}Controller extends Batman.Controller
   ###
     This controller contains basic grid events
   ###
   #fiels that are used in filtering
-  fields: [{% for f in fields %}{% if not forloop.first %},{% endif %}'{{f}}'{% endfor %}]
+    fields: [{% for f in fields %}{% if not forloop.first %},{% endif %}'{{f}}'{% endfor %}]
+
+
+  model_name: "{{ title }}"
+  page_size: 20
+  scroll_threshold: 70 #when to load new portion of records
+
+  with_pagination: (str)=>
+    switch str
+      when str==null then "?page_size=#{@page}"
+      when str.contains? !str.contains("page_size") && str.contains("?") then str+"&page_size=#{@page}"
+      else str
+
+  model: => Denigma.get(@model_name)
 
   constructor: ->
     super
@@ -12,24 +26,50 @@ class Denigma.{{ title }}Controller extends Batman.Controller
     for f in @fields then @set(f,"")
     @addScrolling()
 
+
+  clean: (node, event, context)->
+    @newNovice()
+
+
+
   newNovice: ->
+    ###
+      prepares new model for creation
+    ###
     @set "novice", new Denigma.{{ title }}()
 
   addScrolling: ->
     ###
       adds custom mscrolling to the grid
     ###
+    callback = (e)=>
+      if e.topPct>@scroll_threshold
+        model = @model()
+        if(model.page?)
+          p = model.page
+          unless p.loading==true
+            if p.next?
+              options = @with_pagination(p.next.substring(p.next.indexOf("?")+1)+"")
+              fun = (err, records, env)->#console.log(records)
+              model.load(options,fun)
+              #model.load()
+              p.loading = true
+        else
+          console.log("no scroll")
+
+
     params =
       theme:"dark-thick"
       advanced:
         updateOnContentResize: true
         autoScrollOnFocus: true
-        updateOnContentResize: true
         updateOnBrowserResize:true
         autoHideScrollbar:true
-      scrollButtons:{
+        contentTouchScroll:true
+      scrollButtons:
         enable: true
-      }
+      callbacks:
+        whileScrolling: callback
 
     verParams = params
     $("section.tbody").mCustomScrollbar(verParams)
@@ -57,13 +97,18 @@ class Denigma.{{ title }}Controller extends Batman.Controller
     node.addClass("selected")
 
 
-  add: ->
+  add: (node, event, context)->
     ###
-      creates new
+      creates new  model
+      TODO: figure out what to do with id
     ###
-    nov = @get("novice")
-    nov.save()
-    @newNovice()
+    model = @get("novice")
+    node = $(node).parent().parent()
+    #node  = $(context.get("node"))
+    #debugger
+    @validate(model,node)
+    model.save()
+    unless model.get("errors").length>0 then @newNovice()
 
   validate: (model,node)->
     ###
@@ -93,6 +138,7 @@ class Denigma.{{ title }}Controller extends Batman.Controller
     model = context.get("{{ storage_key }}")
     node  = $(context.get("node"))
     @validate(model,node)
+
     model.save()
 
   remove: (node, event, context) ->
@@ -132,8 +178,7 @@ class Denigma.{{ title }}Controller extends Batman.Controller
       unless @fields? then return false
       for f in @fields
         v = @get(f)
-        unless (v=="" or v==undefined)
-          return true
+        unless (v=="" or v==undefined) then return true
       false
 
   #accessor that gets values from filterinputs and generate options for Model.load()
@@ -159,3 +204,4 @@ class Denigma.{{ title }}Controller extends Batman.Controller
 
 #activates method of the contoller
 Denigma.root("{{ storage_key }}#index")
+{% endautoescape off %}

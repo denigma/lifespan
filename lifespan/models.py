@@ -937,6 +937,18 @@ class Variant(models.Model):
     class Meta:
         db_table = t_prefix+"variant"
 
+    #TODO fix this temporary code in the future
+    @classmethod
+    def keys(cls): return [field.name for field in cls._meta.fields]
+
+    #TODO fix this temporary code in the future
+    @classmethod
+    def values(cls): return [getattr(cls, field.name) for field in cls._meta.fields]
+
+    #TODO fix this temporary code in the future
+    @classmethod
+    def items(cls): return {field.name:getattr(cls, field.name) for field in cls._meta.fields}
+
 
 
 m2m_changed.connect(changed_references, sender=Factor.references.through)

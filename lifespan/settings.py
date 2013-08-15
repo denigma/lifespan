@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'django_filters',
     'easy_pjax',
     'bulbs',
+    'selectable',
     ] + de_apps + apps
 
 
@@ -147,4 +148,4 @@ USE_L10N = True
 
 USE_TZ = True
 
-TEMPLATE_DIRS = [a + "/templates" for a in apps]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR,"templates")]+[a + "/templates" for a in apps]

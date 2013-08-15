@@ -48,7 +48,7 @@ urlpatterns = patterns('',
     #(r'^$', RedirectView.as_view(url='/grids/')), #redirect to the most used app
     #url(r'^Member/(.+)$', 'grids.views.test', name='index'),
     #url(r'^$', 'lifespan.views.interventions', name='index'),
-
+    url(r'^selectable/', include('selectable.urls')),
 
     url(r'^$', TemplateView.as_view(template_name="interventions.html")),
 
@@ -56,11 +56,12 @@ urlpatterns = patterns('',
     url(r'^$', GridView.as_view(template_name="grid.html",model_name="Member")),
 
 
-    url(r'models/', include(router.urls)),
-
     url(r'^grids/', include('grids.urls', namespace="grids")),
     url(r'^tables/' , include('tables.urls', namespace="tables")),
     url(r'^chat/', include('chats.urls', namespace="chats")),
+
+    url(r'^models/', include(router.urls)),
+
 
     url(r'^prototype/', include('prototype.urls', namespace="grids")),
 
@@ -73,5 +74,13 @@ urlpatterns = patterns('',
 
     url(r'^lifespan/', TemplateView.as_view(template_name='interventions.html')),
 
+    #url(r'^variants/', GridView.as_view(template_name="variant.html",model_name="Variant")),
+
+
+    url(r'^variants/', GridView.as_view(template_name="variant.html",model_name="organization")),
+
+
     url(r'^$', GridView.as_view(template_name="grid.html",model_name="Member")),
+
+
     )

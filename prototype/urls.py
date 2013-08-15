@@ -3,7 +3,7 @@ from grids import *
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from grids.views import *
-from grids.member_view_set import *
+from grids.viewsets import *
 from grids.views import GridView, CoffeeModelView
 
 from django.contrib import admin

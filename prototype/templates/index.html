@@ -8,13 +8,12 @@
 {% load less %}
 
 
-{% block sidebar %}
-    <script type="text/javascript" src="{{ STATIC_URL }}{% coffeescript "test.coffee" %}"> </script>
+{% block menu %}
     {% include "menu.html" %}
-{% endblock %}
+{% endblock menu %}
 
 {% block content %}
-<div class="container" id="pjax-container">
+<div class="pjax-container">
 Some info inside me
 </div>
 {% endblock %}

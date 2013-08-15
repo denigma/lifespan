@@ -1,3 +1,4 @@
+{% autoescape off %}
 class Denigma.{{title}} extends Batman.Model
 
     @encode {% for f in fields %}{% if not forloop.first %},{% endif %}'{{f}}'{% endfor %}
@@ -7,4 +8,4 @@ class Denigma.{{title}} extends Batman.Model
     @storageKey: '{{storage_key}}'
 
     @url: '{{ app }}/models/{{storage_key}}'
-
+{% endautoescape off %}
