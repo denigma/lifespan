@@ -77,7 +77,7 @@ urlpatterns = patterns('',
     #url(r'^variants/', GridView.as_view(template_name="variant.html",model_name="Variant")),
 
 
-    url(r'^variants/', GridView.as_view(template_name="variant.html",model_name="organization")),
+    # url(r'^variants/', GridView.as_view(template_name="variant.html",model_name="organization")),
 
 
     url(r'^$', GridView.as_view(template_name="grid.html",model_name="Member")),

@@ -70,14 +70,15 @@
 {#</section>#}
 
 {% block content_base %}
-    <div class="pjax-container" style="height: 100%">
-
-
-
 
 
 
     {% block content %}
+        {{ form.name }}
+
+        <hr>
+        <hr>
+        <div class="pjax-container" style="height: 100%">
 
         <!--{"salary": 0.0, "surname": "surname_0", "name": "username_0", "age": 10, "organization": "Denigma", "id": 1}-->
         <section id="main" class="grid"  data-define-view="member#index">
@@ -139,8 +140,8 @@
 
         </section>
 
-
-
         </div>
+
     {% endblock content %}
+
 {% endblock content_base %}

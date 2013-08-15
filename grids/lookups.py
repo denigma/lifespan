@@ -25,7 +25,7 @@ registry.register(OrganizationLookup)
 
 
 class OrganizationForm(forms.Form):
-    city = fields.AutoCompleteSelectField(
+    name = fields.AutoCompleteSelectField(
         lookup_class=OrganizationLookup,
         label='Organization',
         required=False,

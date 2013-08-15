@@ -3,16 +3,18 @@
 south==0.8.1
 
 git+https://github.com/tomchristie/django-rest-framework.git#egg=rest_framework #for REST services
+-e git+https://github.com/mjumbewu/django-rest-framework-csv#egg=rest_framework_csv #FOR CSV
+
 git+https://github.com/marcgibbons/django-rest-swagger#egg=rest_framework_swagger #for REST services documentation
 -e git+https://github.com/nigma/django-easy-pjax.git#egg=easy_pjax
 
 -e git://github.com/denigma/utils.git@#egg=utils
 
 django-user-accounts==1.0b8
-django-forms-bootstrap==2.0.3.post1
 metron==1.1
 eventlog==0.6
 django-jsonfield==0.8.12
+
 django-less==0.7.1
 
 numpy==1.7.1
@@ -21,9 +23,9 @@ mysql-python==1.2.4
 -e git+https://github.com/mlavin/django-selectable#egg=selectable
 
 -e git+https://github.com/denigma/django-coffeescript.git#egg=coffescript
+
 -e git+https://github.com/alex/django-filter.git#egg=django_filters
-#-e git+https://github.com/rossp/django-menu#egg=menu
 -e git+https://github.com/django-mptt/django-mptt#egg=mptt
+
 -e git+https://github.com/etianen/django-reversion#egg=reversion
 -e git+https://github.com/espeed/bulbs.git#egg=bulbs
-

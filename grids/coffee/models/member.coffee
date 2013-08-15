@@ -1,4 +1,10 @@
 class Denigma.Member extends Batman.Model
+
+  constructor: ->
+    super
+    lc = @get('lifecycle')
+    lc.onExit('loaded', -> alert "it works!")
+
   serializeAsForm: false
   @serializeAsForm: false #do not remember if it is static or normal property
 

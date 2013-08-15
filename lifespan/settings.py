@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'reversion',
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework_csv',
     'south',
     'coffeescript',
     'less',
@@ -106,8 +107,17 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
     ),
+
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.XMLRenderer',
+        'rest_framework_csv.renderers.CSVRenderer',
+    ),
     'PAGINATE_BY': 50,
-    'PAGINATE_BY_PARAM': 'page_size'
+    'PAGINATE_BY_PARAM': 'page_size',
+
+
 }
 
 
