@@ -64,12 +64,14 @@ class GridView(TemplateView):
             raise Http404
         models = modelClass.objects.all()
         fields = models[0].keys()
+        foreign = models[0].foreign()
 
         context = kwargs
         if 'view' not in context:
             context['view'] = self
         context["model"] = model
         context["fields"] = fields
+        context["foreign"] = foreign
         return context
 
 #just a test class to experiment with lookups

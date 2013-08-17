@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.request import clone_request
 import warnings
 import django_filters
+from serializers import *
 
 from rest_framework import filters
 
@@ -18,6 +19,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     API endpoint that allows users to be viewed or edited.
     """
     model = Member
+    serializer_class = MemberSerializer
 
     filter_backends = (filters.DjangoFilterBackend,filters.SearchFilter, filters.OrderingFilter,)
     #fields that can be filtered

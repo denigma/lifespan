@@ -36,17 +36,6 @@
     {% include "grid_menu.html" %}
 {% endblock %}
 
-{#<script type="text/javascript">#}
-{#    function newParameters(query) {#}
-{#        query.foo = 'bar';#}
-{#    }#}
-{##}
-{#    $(document).ready(function() {#}
-{#        $('#id_autocomplete').djselectable('option', 'prepareQuery', newParameters);#}
-{#    });#}
-{#</script>#}
-<br/>
-
 {#<section id="main" class="grid" style="height: 200px">#}
 {#    <section class="thead">#}
 {#        <section class="row">#}
@@ -69,16 +58,26 @@
 {#    </section>#}
 {#</section>#}
 
-{% block content_base %}
+{% block body %}
 
 
 
     {% block content %}
-        {{ form.name }}
 
-        <hr>
-        <hr>
+
+
+
         <div class="pjax-container" style="height: 100%">
+
+            <script type="text/javascript">
+
+                setTimeout(function() {
+
+                    window.bindSelectables('body'); //Experimental dirty hack. TODO: assign to some view lifecicle
+                }, 2000);   // то же самое, но с функцией.
+            </script>
+
+
 
         <!--{"salary": 0.0, "surname": "surname_0", "name": "username_0", "age": 10, "organization": "Denigma", "id": 1}-->
         <section id="main" class="grid"  data-define-view="member#index">
@@ -91,7 +90,7 @@
                 <section class="row">
 
                     {% for f in fields %}
-                        <div class="cell"><input class="{{f}}" type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.{{f}}"></div>
+                            <div class="cell"><input class="{{f}}" type="text" placeholder="{{f}}" data-bind="controllers.{{model}}.{{f}}"></div>
                     {%  endfor %}
                     <div class="cell">
                         <Button data-event-click="controllers.{{model}}.filter">Filter</Button>
@@ -108,13 +107,25 @@
                          data-event-mouseout="controllers.{{model}}.out"
                         >
                     {% for f in fields %}
+                        {% if f in foreign %}
+                            <input
+                                    data-selectable-type="combobox"
+                                    data-selectable-url="/selectable/grids-organizationlookup/"
+                                    id="id_{{f}}_{{ forloop.counter }}"
+                                    name="name_{{ forloop.counter }}"
+                                    type="text"
+                                    data-bind="{{model}}.{{f}}"
+                                    class="{{f}} ui-autocomplete-input ui-widget ui-widget-content ui-corner-left ui-combo-input" autocomplete="true">
+                        {% else %}
                         <div class="cell">
                             <input class="{{f}}" type="text"
                                    placeholder="{{f}}" data-bind="{{model}}.{{f}}"
                                    data-event-blur="controllers.{{model}}.blur"
                                     >
                         </div>
+                        {% endif %}
                     {% endfor %}
+
 
                     <div class="cell remove">
                         <Button data-event-click="controllers.{{model}}.remove">x</Button>
@@ -144,4 +155,4 @@
 
     {% endblock content %}
 
-{% endblock content_base %}
+{% endblock body %}

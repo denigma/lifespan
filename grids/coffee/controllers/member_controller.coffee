@@ -202,5 +202,5 @@ class Denigma.MemberController extends Batman.Controller
       vals = @get "_items"
       if vals==undefined then Denigma.get('Member.all') else vals
 
-  #activates method of the contoller
-  Denigma.root("member#index")
+#activates method of the contoller
+Denigma.root("member#index")

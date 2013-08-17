@@ -104,6 +104,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
+
+    # 'DEFAULT_MODEL_SERIALIZER_CLASS': (
+    #     'rest_framework.serializers.HyperlinkedModelSerializer',
+    # ),
+
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
     ),
@@ -114,6 +119,9 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.XMLRenderer',
         'rest_framework_csv.renderers.CSVRenderer',
     ),
+
+
+
     'PAGINATE_BY': 50,
     'PAGINATE_BY_PARAM': 'page_size',
 

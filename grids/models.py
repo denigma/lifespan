@@ -18,6 +18,9 @@ class Organization(models.Model):
     @classmethod
     def items(cls): return {field.name:getattr(cls, field.name) for field in cls._meta.fields}
 
+
+
+
 class Member(models.Model):
     """Testing model to test grids"""
     name = models.CharField(max_length=255)
@@ -36,3 +39,6 @@ class Member(models.Model):
 
     @classmethod
     def items(cls): return {field.name:getattr(cls, field.name) for field in cls._meta.fields}
+
+    @classmethod
+    def foreign(cls): return ['organization'] #hardcoded for test only TODO: write foreign funciton
